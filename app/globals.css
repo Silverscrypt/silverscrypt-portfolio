@@ -1,0 +1,637 @@
+/* ==========================================================================
+   globals.css — the only stylesheet in the project.
+
+   1. Imports          Tailwind, shadcn base styles, animations
+   2. Theme mapping    exposes the tokens below as Tailwind utilities
+   3. Design tokens    colors, type, motion  ← edit these to restyle the site
+   4. Base             element defaults
+   5. Components       every class used in /components and /app
+   6. Motion           keyframes + reduced-motion fallbacks
+
+   Palette rule: black and white carry the page. Orange (--brand) is for
+   small details and motion only (dots, rings, underlines, focus), never
+   for body text, so it always stays readable.
+   ========================================================================== */
+
+/* 1. Imports ------------------------------------------------------------- */
+
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* 2. Theme mapping (shadcn tokens → Tailwind utilities like bg-primary) -- */
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Portfolio-specific colors, usable as bg-brand, text-menu-foreground… */
+  --color-brand: var(--brand);
+  --color-brand-foreground: var(--brand-foreground);
+  --color-menu: var(--menu);
+  --color-menu-foreground: var(--menu-foreground);
+  --color-menu-muted: var(--menu-muted);
+
+  --font-sans: var(--font-figtree), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-heading: var(--font-sans);
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+/* 3. Design tokens -------------------------------------------------------- */
+
+:root {
+  /* Page: warm white with near-black ink. */
+  --background: #fbfaf7;
+  --foreground: #111111;
+  --muted: #f1efea;
+  --muted-foreground: #6b675f; /* 5.4:1 on --background */
+  --border: #e6e3dc;
+  --input: #e6e3dc;
+
+  /* shadcn roles mapped onto black / white / orange. */
+  --card: #ffffff;
+  --card-foreground: #111111;
+  --popover: #ffffff;
+  --popover-foreground: #111111;
+  --primary: #111111;
+  --primary-foreground: #fbfaf7;
+  --secondary: #f1efea;
+  --secondary-foreground: #111111;
+  --accent: #f1efea;
+  --accent-foreground: #111111;
+  --destructive: #c42b1c;
+  --ring: #f4631e;
+
+  /* Orange accent. 3.1:1 on --background: fine for marks and focus rings
+     (3:1 needed), too low for text. */
+  --brand: #f4631e;
+  --brand-foreground: #111111;
+
+  /* Full-screen menu. */
+  --menu: #000000;
+  --menu-foreground: #ededed;
+  --menu-muted: #a3a3a3; /* 8.3:1 on --menu */
+
+  --chart-1: #f4631e;
+  --chart-2: #111111;
+  --chart-3: #6b675f;
+  --chart-4: #a3a3a3;
+  --chart-5: #e6e3dc;
+
+  --sidebar: #fbfaf7;
+  --sidebar-foreground: #111111;
+  --sidebar-primary: #111111;
+  --sidebar-primary-foreground: #fbfaf7;
+  --sidebar-accent: #f1efea;
+  --sidebar-accent-foreground: #111111;
+  --sidebar-border: #e6e3dc;
+  --sidebar-ring: #f4631e;
+
+  --radius: 0.625rem;
+
+  /* Layout and motion. */
+  --gutter: clamp(1.5rem, 5vw, 3rem);
+  --ease: cubic-bezier(0.7, 0, 0.2, 1); /* moves that start and stop */
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1); /* things arriving */
+}
+
+/* 4. Base ------------------------------------------------------------------ */
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    @apply font-sans antialiased;
+    color-scheme: light;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply min-h-dvh bg-background text-base leading-normal text-foreground;
+    text-rendering: optimizeLegibility;
+  }
+
+  a {
+    @apply text-inherit no-underline;
+  }
+
+  :focus-visible {
+    @apply rounded-sm outline-2 outline-offset-4 outline-ring;
+  }
+
+  ::selection {
+    background: color-mix(in srgb, var(--brand) 30%, transparent);
+    color: inherit;
+  }
+}
+
+/* 5. Components ------------------------------------------------------------ */
+
+@layer components {
+  /* ---------- Layout ---------- */
+
+  /* Shared column for Work, Writing and 404. */
+  .page {
+    @apply mx-auto w-full max-w-5xl;
+    padding: clamp(7rem, 18vh, 11rem) var(--gutter) 8rem;
+  }
+
+  .skip-link {
+    @apply fixed top-3 left-18 z-100 rounded-full bg-primary px-3.5 py-2 text-primary-foreground;
+    transform: translateY(-200%);
+  }
+
+  .skip-link:focus-visible {
+    transform: none;
+  }
+
+  /* Underlined inline link, e.g. on the 404 page. */
+  .text-link {
+    @apply underline decoration-border decoration-1 underline-offset-[0.3em] transition-colors duration-300;
+  }
+
+  .text-link:hover {
+    @apply decoration-brand;
+  }
+
+  /* ---------- Page header (Work, Writing, 404) ---------- */
+
+  .page-header {
+    margin-bottom: clamp(3rem, 8vw, 5.5rem);
+  }
+
+  .page-eyebrow {
+    @apply mb-5 text-xs font-medium tracking-[0.2em] text-muted-foreground uppercase;
+  }
+
+  .page-title {
+    @apply font-normal leading-none tracking-[-0.03em];
+    font-size: clamp(3rem, 7.5vw, 5.75rem);
+  }
+
+  .page-intro {
+    @apply mt-7 max-w-[34ch] leading-normal text-muted-foreground;
+    font-size: clamp(1.15rem, 2vw, 1.5rem);
+  }
+
+  .page-actions {
+    @apply mt-10;
+  }
+
+  /* ---------- Hero (home) ---------- */
+
+  .hero {
+    --photo: clamp(9rem, 20vw, 18rem);
+    --ring-gap: clamp(0.5rem, 1vw, 0.875rem);
+
+    @apply flex min-h-svh items-center justify-center;
+    gap: clamp(2rem, 6vw, 5.5rem);
+    padding: 6rem var(--gutter);
+  }
+
+  .hero-portrait {
+    @apply relative flex-none;
+    width: var(--photo);
+    height: var(--photo);
+    margin: var(--ring-gap);
+  }
+
+  .hero-photo {
+    @apply block size-full rounded-full object-cover;
+  }
+
+  /* Thin orange ring drawn just outside the photo. */
+  .hero-ring {
+    @apply pointer-events-none absolute overflow-visible;
+    inset: calc(var(--ring-gap) * -1);
+    width: calc(100% + var(--ring-gap) * 2);
+    height: calc(100% + var(--ring-gap) * 2);
+    transform: rotate(-90deg);
+  }
+
+  .hero-ring circle {
+    fill: none;
+    stroke: var(--brand);
+    stroke-width: 0.55; /* viewBox units: ~1.7px at full size */
+    stroke-linecap: round;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 0;
+  }
+
+  .hero-name {
+    @apply font-normal leading-none tracking-[-0.03em];
+    font-size: clamp(3rem, 8.2vw, 6.5rem);
+  }
+
+  .hero-tagline {
+    @apply mt-7 flex flex-wrap items-center leading-snug text-muted-foreground;
+    font-size: clamp(1.05rem, 1.7vw, 1.5rem);
+  }
+
+  .hero-dot {
+    @apply mx-4 size-[5px] flex-none rounded-full bg-brand;
+  }
+
+  @media (max-width: 1100px) {
+    .hero-ring circle {
+      stroke-width: 0.7;
+    }
+  }
+
+  @media (max-width: 760px) {
+    .hero {
+      @apply flex-col items-start gap-10;
+    }
+
+    .hero-ring circle {
+      stroke-width: 0.9;
+    }
+
+    /* Stack tagline items instead of letting a dot dangle at a line start. */
+    .hero-tagline {
+      @apply flex-col items-start gap-1;
+    }
+
+    .hero-dot {
+      @apply hidden;
+    }
+  }
+
+  /* ---------- Entry list (Work and Writing rows) ---------- */
+
+  .entry-list {
+    @apply border-b;
+  }
+
+  .entry {
+    @apply border-t;
+  }
+
+  .entry-row {
+    @apply relative grid items-start gap-x-2;
+    grid-template-columns: 1.75rem 1fr auto;
+    padding: clamp(1.75rem, 4vw, 2.5rem) 0;
+  }
+
+  .entry-text {
+    @apply block;
+    transition: transform 0.5s var(--ease-out);
+  }
+
+  .entry-title {
+    @apply font-normal leading-[1.15] tracking-[-0.015em];
+    font-size: clamp(1.75rem, 3.6vw, 2.75rem);
+  }
+
+  .entry-summary {
+    @apply mt-2 max-w-[44ch] leading-[1.45] text-muted-foreground;
+    font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+  }
+
+  .entry-meta {
+    @apply pt-2 text-base whitespace-nowrap text-muted-foreground tabular-nums;
+  }
+
+  /* Orange dot that grows in beside a linked row. */
+  .entry-marker {
+    @apply mt-[1.05rem] size-2 self-start rounded-full bg-brand;
+    transform: scale(0);
+    transition: transform 0.4s var(--ease-out);
+  }
+
+  /* Orange line that sweeps across the top edge of a linked row. */
+  .entry-link::after {
+    @apply absolute inset-x-0 -top-px h-[1.5px] bg-brand content-[''];
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.6s var(--ease);
+  }
+
+  .entry-link:focus-visible {
+    @apply rounded-none -outline-offset-4;
+  }
+
+  .entry-link:focus-visible .entry-marker,
+  .entry-link:focus-visible::after {
+    transform: none;
+  }
+
+  @media (hover: hover) {
+    .entry-link:hover .entry-marker,
+    .entry-link:hover::after {
+      transform: none;
+    }
+
+    .entry-link:hover .entry-text {
+      transform: translateX(0.35rem);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .entry-row {
+      grid-template-columns: 1.25rem 1fr;
+    }
+
+    .entry-meta {
+      @apply col-start-2 pt-3 text-[0.95rem];
+    }
+  }
+
+  /* ---------- Menu toggle (two bars that become an X) ---------- */
+
+  .menu-toggle {
+    @apply fixed top-[1.1rem] left-[1.1rem] z-50 grid size-12 cursor-pointer place-items-center border-0 bg-transparent p-0 text-foreground;
+    transition: color 0.4s var(--ease) 0.1s;
+  }
+
+  .menu-toggle[data-open="true"] {
+    @apply text-menu-foreground;
+  }
+
+  .menu-bars {
+    @apply relative block h-3 w-9;
+  }
+
+  .menu-bars span {
+    @apply absolute inset-x-0 h-[1.5px] bg-current;
+    transition:
+      transform 0.5s var(--ease),
+      background-color 0.3s ease;
+  }
+
+  .menu-bars span:first-child {
+    @apply top-0;
+  }
+
+  .menu-bars span:last-child {
+    @apply bottom-0;
+  }
+
+  .menu-toggle[data-open="true"] .menu-bars span:first-child {
+    transform: translateY(5.25px) rotate(45deg);
+  }
+
+  .menu-toggle[data-open="true"] .menu-bars span:last-child {
+    transform: translateY(-5.25px) rotate(-45deg);
+  }
+
+  @media (hover: hover) {
+    .menu-toggle[data-open="false"]:hover .menu-bars span:last-child {
+      @apply bg-brand;
+    }
+  }
+
+  /* ---------- Full-screen menu ---------- */
+
+  .menu {
+    --origin-x: 2.6rem; /* center of the toggle */
+    --origin-y: 2.6rem;
+
+    @apply invisible fixed inset-0 z-40;
+    transition: visibility 0s linear 1s; /* stay visible until the wipe closes */
+  }
+
+  /* Opening: visible at once so focus can move into the menu. */
+  .menu[data-open="true"] {
+    @apply visible;
+    transition: none;
+  }
+
+  /* Two circles grow from the toggle: orange first, black just behind. */
+  .menu-wipe,
+  .menu-panel {
+    @apply absolute inset-0;
+    clip-path: circle(0 at var(--origin-x) var(--origin-y));
+    transition: clip-path 0.8s var(--ease);
+  }
+
+  .menu-wipe {
+    @apply bg-brand;
+    transition-delay: 0.14s; /* closing: follows the panel out */
+  }
+
+  .menu-panel {
+    @apply grid grid-cols-[1fr_auto] items-center gap-12 bg-menu text-menu-foreground;
+    padding: 0 clamp(2rem, 15vw, 17rem);
+  }
+
+  .menu[data-open="true"] .menu-wipe {
+    clip-path: circle(150vmax at var(--origin-x) var(--origin-y));
+    transition-delay: 0s;
+  }
+
+  .menu[data-open="true"] .menu-panel {
+    clip-path: circle(150vmax at var(--origin-x) var(--origin-y));
+    transition-delay: 0.14s;
+  }
+
+  .menu-primary {
+    @apply grid gap-[0.15em] leading-[1.1] font-normal tracking-[-0.02em];
+    font-size: clamp(3rem, 8vw, 6.25rem);
+  }
+
+  .menu-item {
+    @apply opacity-0;
+    transform: translateY(0.75rem);
+    transition:
+      opacity 0.2s ease,
+      transform 0.2s ease;
+  }
+
+  .menu[data-open="true"] .menu-item {
+    @apply opacity-100;
+    transform: none;
+    transition:
+      opacity 0.6s var(--ease-out),
+      transform 0.6s var(--ease-out);
+    transition-delay: calc(0.35s + var(--i) * 0.07s);
+  }
+
+  .menu-link,
+  .menu-aside-link {
+    @apply relative inline-block;
+  }
+
+  .menu-link:focus-visible,
+  .menu-aside-link:focus-visible {
+    @apply outline-none;
+  }
+
+  /* Orange underline that sweeps in on hover or keyboard focus. */
+  .menu-link::after,
+  .menu-aside-link::after {
+    @apply absolute inset-x-0 bottom-[0.04em] h-0.5 bg-brand content-[''];
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.5s var(--ease);
+  }
+
+  .menu-link:hover::after,
+  .menu-link:focus-visible::after,
+  .menu-aside-link:hover::after,
+  .menu-aside-link:focus-visible::after {
+    transform: scaleX(1);
+  }
+
+  /* Small orange dot beside the page you are on. */
+  .menu-link[aria-current="page"]::before {
+    @apply absolute top-[55%] -left-[0.3em] size-[0.1em] rounded-full bg-brand content-[''];
+    transform: translateY(-50%);
+  }
+
+  .menu-aside {
+    @apply grid gap-5 self-center;
+    padding-right: clamp(0rem, 5vw, 6rem);
+  }
+
+  .menu-aside-title {
+    @apply text-xs font-medium tracking-[0.2em] text-menu-muted uppercase;
+  }
+
+  .menu-aside-list {
+    @apply grid gap-3.5;
+  }
+
+  .menu-aside-link {
+    @apply text-2xl leading-tight text-menu-muted transition-colors duration-300;
+  }
+
+  .menu-aside-link:hover,
+  .menu-aside-link:focus-visible {
+    @apply text-white;
+  }
+
+  @media (max-width: 760px) {
+    .menu-panel {
+      @apply grid-cols-1 content-center gap-14;
+    }
+
+    .menu-primary {
+      font-size: clamp(2.75rem, 15vw, 4.5rem);
+    }
+  }
+}
+
+/* 6. Motion ---------------------------------------------------------------- */
+
+/* The one orchestrated moment: photo settles, ring draws, then the text. */
+@media (prefers-reduced-motion: no-preference) {
+  .hero-photo {
+    animation: settle 0.9s var(--ease-out) both;
+  }
+
+  .hero-ring circle {
+    animation: draw 1.5s var(--ease) 0.25s both;
+  }
+
+  .hero-name {
+    animation: rise 0.8s var(--ease-out) 0.55s both;
+  }
+
+  .hero-tagline {
+    animation: rise 0.8s var(--ease-out) 0.8s both;
+  }
+
+  .page-header {
+    animation: rise 0.7s var(--ease-out) both;
+  }
+}
+
+@keyframes settle {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+}
+
+@keyframes draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(0.6rem);
+  }
+}
+
+/* Reduced motion: a quick fade instead of the wipe, no sliding. */
+@media (prefers-reduced-motion: reduce) {
+  .menu-wipe {
+    display: none;
+  }
+
+  .menu {
+    transition-delay: 0.15s; /* hide right after the fade-out */
+  }
+
+  .menu-panel {
+    clip-path: none;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+  }
+
+  .menu[data-open="true"] .menu-panel {
+    clip-path: none;
+    opacity: 1;
+    transition-delay: 0s;
+  }
+
+  .menu-item,
+  .menu[data-open="true"] .menu-item {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .menu-bars span,
+  .menu-link::after,
+  .menu-aside-link::after,
+  .entry-text,
+  .entry-marker,
+  .entry-link::after {
+    transition: none;
+  }
+}
