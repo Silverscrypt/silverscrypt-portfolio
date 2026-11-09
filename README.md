@@ -66,6 +66,7 @@ These are all in `app/globals.css`.
 | Menu colors | `--menu`, `--menu-foreground`, `--menu-muted` in section 3 |
 | Animation easing | `--ease`, `--ease-out` in section 3 |
 | Height of the table of contents | `--toc-drop` under `.post-layout` (larger is lower) |
+| Home page background | `opacity` under `.hero-vine` (keep it at 0.28 or below so the tagline stays readable). The image is `public/images/vines.webp` |
 
 Colors set in section 3 apply across the whole site, including shadcn components.
 

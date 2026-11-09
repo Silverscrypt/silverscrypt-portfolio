@@ -5,6 +5,8 @@ import { profile } from "@/lib/content";
 export function Hero() {
   return (
     <section className="hero">
+      <div className="hero-vine" aria-hidden="true" />
+
       <div className="hero-portrait">
         <Image
           className="hero-photo"

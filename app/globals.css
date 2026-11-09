@@ -63,7 +63,9 @@
   --color-menu-foreground: var(--menu-foreground);
   --color-menu-muted: var(--menu-muted);
 
-  --font-sans: var(--font-figtree), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-sans:
+    var(--font-figtree), ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    sans-serif;
   --font-heading: var(--font-sans);
 
   --radius-sm: calc(var(--radius) * 0.6);
@@ -226,9 +228,16 @@
     --photo: clamp(9rem, 20vw, 18rem);
     --ring-gap: clamp(0.5rem, 1vw, 0.875rem);
 
-    @apply flex min-h-svh items-center justify-center;
+    @apply relative isolate flex min-h-svh items-center justify-center;
     gap: clamp(2rem, 6vw, 5.5rem);
     padding: 6rem var(--gutter);
+  }
+
+  /* Faint vine artwork behind the hero. Keep opacity at 0.28 or below: any
+     higher and the tagline drops under 4.5:1 where a leaf passes behind it. */
+  .hero-vine {
+    @apply pointer-events-none absolute inset-0 -z-10 opacity-[0.35];
+    background: url("/images/vines.webp") center / cover no-repeat;
   }
 
   .hero-portrait {
@@ -787,6 +796,10 @@
 
 /* The one orchestrated moment: photo settles, ring draws, then the text. */
 @media (prefers-reduced-motion: no-preference) {
+  .hero-vine {
+    animation: fade-in 1.8s ease-out both;
+  }
+
   .hero-photo {
     animation: settle 0.9s var(--ease-out) both;
   }
@@ -805,6 +818,12 @@
 
   .page-header {
     animation: rise 0.7s var(--ease-out) both;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
   }
 }
 
