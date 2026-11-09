@@ -316,12 +316,24 @@
 
   .entry {
     @apply border-t;
+    --entry-pad: clamp(1.75rem, 4vw, 2.5rem);
+  }
+
+  /* A row with a GitHub button: the button sits in its own column. */
+  .entry:has(> .entry-repo) {
+    @apply grid items-start gap-x-4;
+    grid-template-columns: minmax(0, 1fr) auto;
   }
 
   .entry-row {
     @apply relative grid items-start gap-x-2;
     grid-template-columns: 1.75rem 1fr auto;
-    padding: clamp(1.75rem, 4vw, 2.5rem) 0;
+    padding: var(--entry-pad) 0;
+  }
+
+  /* Centered on the first line of the meta text. */
+  .entry-repo {
+    margin-top: calc(var(--entry-pad) + 0.125rem);
   }
 
   .entry-text {
@@ -472,6 +484,19 @@
 
   .post-back {
     @apply mt-16;
+  }
+
+  /* ---------- Project cover image (Work pages) ---------- */
+
+  .project-cover {
+    @apply max-w-[68ch] overflow-hidden rounded-md border bg-card;
+    /* Same font size as .post-body, so 68ch lines up with the text column. */
+    font-size: clamp(1.05rem, 1.6vw, 1.2rem);
+    margin-bottom: clamp(2.5rem, 6vw, 4rem);
+  }
+
+  .project-cover-image {
+    @apply block h-auto w-full;
   }
 
   .post-back-top {
@@ -818,6 +843,10 @@
 
   .page-header {
     animation: rise 0.7s var(--ease-out) both;
+  }
+
+  .project-cover {
+    animation: rise 0.7s var(--ease-out) 0.15s both;
   }
 }
 

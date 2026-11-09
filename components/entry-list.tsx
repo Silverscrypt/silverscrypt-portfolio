@@ -1,10 +1,15 @@
+import { cn } from "cn";
 import Link from "next/link";
+import { GithubIcon } from "@/components/github-icon";
+import { buttonVariants } from "@/components/ui/button";
 import type { Entry } from "@/lib/content";
 
 type EntryListProps = {
   entries: Entry[];
   /** Accessible name for the list, e.g. "Projects". */
   label: string;
+  /** Accessible name for an entry's GitHub button, from its title. */
+  repoLabel?: (title: string) => string;
 };
 
 export const isExternal = (href: string) => /^https?:\/\//.test(href);
@@ -22,23 +27,46 @@ function EntryBody({ entry }: { entry: Entry }) {
   );
 }
 
-export function EntryList({ entries, label }: EntryListProps) {
+function EntryRow({ entry }: { entry: Entry }) {
+  if (!entry.href) {
+    return (
+      <div className="entry-row">
+        <EntryBody entry={entry} />
+      </div>
+    );
+  }
+  return isExternal(entry.href) ? (
+    <a className="entry-row entry-link" href={entry.href} target="_blank" rel="noreferrer">
+      <EntryBody entry={entry} />
+    </a>
+  ) : (
+    <Link className="entry-row entry-link" href={entry.href}>
+      <EntryBody entry={entry} />
+    </Link>
+  );
+}
+
+export function EntryList({
+  entries,
+  label,
+  repoLabel = (title) => `${title} on GitHub`,
+}: EntryListProps) {
   return (
     <ul className="entry-list" aria-label={label}>
       {entries.map((entry) => (
         <li key={entry.title} className="entry">
-          {!entry.href ? (
-            <div className="entry-row">
-              <EntryBody entry={entry} />
-            </div>
-          ) : isExternal(entry.href) ? (
-            <a className="entry-row entry-link" href={entry.href} target="_blank" rel="noreferrer">
-              <EntryBody entry={entry} />
+          <EntryRow entry={entry} />
+          {/* A sibling of the row, since a link can't contain another link. */}
+          {entry.repo && (
+            <a
+              className={cn(buttonVariants({ variant: "outline", size: "icon-lg" }), "entry-repo")}
+              href={entry.repo}
+              target="_blank"
+              rel="noreferrer"
+              aria-label={repoLabel(entry.title)}
+            >
+              <GithubIcon />
             </a>
-          ) : (
-            <Link className="entry-row entry-link" href={entry.href}>
-              <EntryBody entry={entry} />
-            </Link>
           )}
         </li>
       ))}

@@ -12,6 +12,8 @@ export type Entry = {
   meta: string;
   /** Add a URL to turn the row into a link. Rows with "#" are placeholders. */
   href?: string;
+  /** Source code URL, shown as a separate GitHub button beside the row. */
+  repo?: string;
 };
 
 export const profile = {
@@ -44,26 +46,13 @@ export const work = {
   eyebrow: "Selected projects",
   title: "Work",
   intro: "A few things I've designed and built.",
-  entries: [
-    {
-      title: "Project one",
-      summary: "One sentence on what it does and who it's for.",
-      meta: "2026 to Present",
-      href: "#",
-    },
-    {
-      title: "Project two",
-      summary: "One sentence on what it does and who it's for.",
-      meta: "2025 to 2026",
-      href: "#",
-    },
-    {
-      title: "Project three",
-      summary: "One sentence on what it does and who it's for.",
-      meta: "2025",
-      href: "#",
-    },
-  ] satisfies Entry[],
+  backLabel: "Back to Work",
+  tocLabel: "On this page",
+  /** Label of the GitHub button on a project page. */
+  repoLabel: "Source code",
+  /** Accessible name of the GitHub icon button in the Work list. */
+  repoListLabel: (title: string) => `${title} source code on GitHub`,
+  // The projects themselves are the .md files in content/work.
 };
 
 export const writing = {
