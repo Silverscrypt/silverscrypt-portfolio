@@ -22,13 +22,13 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={figtree.variable} data-scroll-behavior="smooth">
-      <SpeedInsights />
       <body>
         <a className="skip-link" href="#main">
           Skip to content
         </a>
         <SiteMenu />
         <main id="main">{children}</main>
+        <SpeedInsights />
       </body>
     </html>
   );
