@@ -20,7 +20,7 @@ export const profile = {
   image: {
     // Replace with your own photo: drop a square image in /public/images
     // (e.g. profile.jpg) and update the path here.
-    src: "/images/profile.jpg",
+    src: "/images/olivers.jpg",
     alt: "Profile Picture",
   },
 };
