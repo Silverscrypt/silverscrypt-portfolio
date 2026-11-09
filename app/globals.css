@@ -173,7 +173,9 @@
   /* Shared column for Work, Writing and 404. */
   .page {
     @apply mx-auto w-full max-w-5xl;
-    padding: clamp(7rem, 18vh, 11rem) var(--gutter) 8rem;
+    --page-top: clamp(7rem, 18vh, 11rem);
+
+    padding: var(--page-top) var(--gutter) 8rem;
   }
 
   .skip-link {
@@ -375,6 +377,235 @@
     .entry-meta {
       @apply col-start-2 pt-3 text-[0.95rem];
     }
+  }
+
+  /* ---------- Post (rendered Markdown) ---------- */
+
+  .post-body {
+    @apply max-w-[68ch] leading-relaxed;
+    font-size: clamp(1.05rem, 1.6vw, 1.2rem);
+    overflow-wrap: anywhere;
+  }
+
+  .post-body > * + * {
+    @apply mt-5;
+  }
+
+  .post-body h2 {
+    @apply mt-14 font-normal leading-tight tracking-[-0.015em];
+    font-size: clamp(1.6rem, 3vw, 2.25rem);
+  }
+
+  .post-body h3,
+  .post-body h4 {
+    @apply mt-10 text-[1.25em] font-medium leading-snug;
+  }
+
+  .post-body a {
+    @apply underline decoration-brand decoration-1 underline-offset-[0.2em];
+  }
+
+  .post-body ul {
+    @apply list-disc pl-6;
+  }
+
+  .post-body ol {
+    @apply list-decimal pl-6;
+  }
+
+  .post-body li + li {
+    @apply mt-2;
+  }
+
+  .post-body li::marker {
+    color: var(--brand);
+  }
+
+  .post-body blockquote {
+    @apply border-l-2 border-brand pl-5 text-muted-foreground;
+  }
+
+  .post-body hr {
+    @apply my-12;
+  }
+
+  .post-body img {
+    @apply h-auto max-w-full rounded-md;
+  }
+
+  .post-body code {
+    @apply rounded-sm bg-muted px-1.5 py-0.5 font-mono text-[0.88em];
+  }
+
+  .post-body pre {
+    @apply overflow-x-auto rounded-md bg-muted p-4 leading-normal;
+    overflow-wrap: normal;
+  }
+
+  .post-body pre code {
+    @apply bg-transparent p-0;
+  }
+
+  /* Wide tables scroll inside the column instead of widening the page. */
+  .post-body table {
+    @apply block max-w-full overflow-x-auto border-collapse;
+    overflow-wrap: normal;
+  }
+
+  .post-body th,
+  .post-body td {
+    @apply border-b px-3 py-2 text-left;
+  }
+
+  .post-body th {
+    @apply font-medium;
+  }
+
+  .post-back {
+    @apply mt-16;
+  }
+
+  .post-back-top {
+    @apply mb-10;
+  }
+
+  /* Land headings below the top of the viewport when jumped to. */
+  .post-body [id] {
+    scroll-margin-top: 6rem;
+  }
+
+  /* Text link with an arrow that nudges back and an orange sweep. */
+  .post-back-link {
+    @apply relative inline-flex items-center gap-2 text-foreground;
+    font-size: 1.05rem;
+  }
+
+  .post-back-link svg {
+    @apply size-4 flex-none;
+    transition: transform 0.4s var(--ease-out);
+  }
+
+  .post-back-link::after {
+    @apply absolute inset-x-0 -bottom-1 h-px bg-brand content-[''];
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.5s var(--ease);
+  }
+
+  .post-back-link:focus-visible::after {
+    transform: scaleX(1);
+  }
+
+  @media (hover: hover) {
+    .post-back-link:hover::after {
+      transform: scaleX(1);
+    }
+
+    .post-back-link:hover svg {
+      transform: translateX(-0.25rem);
+    }
+  }
+
+  /* ---------- Post layout and table of contents ---------- */
+
+  .post-article {
+    @apply min-w-0;
+  }
+
+  /* Sidebar only where there's room for it beside the article. */
+  .toc {
+    @apply hidden;
+  }
+
+  @media (min-width: 1100px) {
+    .post-layout {
+      --toc-drop: 5rem; /* how far below the top of the article it sits */
+
+      @apply grid max-w-none items-start;
+      /* Article stays centered; the side columns give way when space is tight. */
+      grid-template-columns: minmax(0, 1fr) minmax(0, 60rem) minmax(19rem, 1fr);
+    }
+
+    .post-article {
+      grid-column: 2;
+    }
+
+    /* Sticks at exactly where it starts, so it never shifts on scroll. */
+    .toc {
+      @apply sticky block w-64 justify-self-end overflow-y-auto;
+      grid-column: 3;
+      top: calc(var(--page-top) + var(--toc-drop));
+      margin-top: var(--toc-drop);
+      max-height: calc(100dvh - var(--page-top) - var(--toc-drop) - 2rem);
+    }
+  }
+
+  /* The divider. */
+  .toc-rail {
+    @apply relative border-l;
+  }
+
+  /* One dark bar that slides along the divider to the active item. A 1px
+     line scaled to the link's height, so only transform has to animate. */
+  .toc-indicator {
+    @apply pointer-events-none absolute top-0 -left-px h-px w-px bg-foreground opacity-0;
+    transform: translateY(var(--toc-y, 0)) scaleY(var(--toc-h, 0));
+    transform-origin: top;
+  }
+
+  .toc-indicator[data-ready] {
+    @apply opacity-100;
+    transition: transform 0.5s var(--ease);
+  }
+
+  .toc-list {
+    @apply grid gap-1;
+  }
+
+  .toc-link {
+    @apply block py-1.5 pr-1 pl-5 text-[0.95rem] leading-snug text-muted-foreground;
+    transition: color 0.4s var(--ease);
+  }
+
+  .toc-link[data-level="3"] {
+    @apply pl-9 text-sm;
+  }
+
+  .toc-link {
+    @apply relative;
+  }
+
+  /* Orange text and divider line on hover; black stays for the selected item.
+     Deliberate exception to the no-orange-text rule, hover state only. */
+  .toc-link::before {
+    @apply absolute inset-y-0 -left-px w-px bg-brand opacity-0 content-[''];
+    transition: opacity 0.2s ease;
+  }
+
+  .toc-link:not([aria-current]):focus-visible {
+    @apply text-brand;
+  }
+
+  .toc-link:not([aria-current]):focus-visible::before {
+    @apply opacity-100;
+  }
+
+  @media (hover: hover) {
+    .toc-link:not([aria-current]):hover {
+      @apply text-brand;
+    }
+
+    .toc-link:not([aria-current]):hover::before {
+      @apply opacity-100;
+    }
+  }
+
+  .toc-link[aria-current] {
+    @apply text-foreground;
+  }
+
+  .toc-link:focus-visible {
+    @apply outline-offset-[-2px];
   }
 
   /* ---------- Menu toggle (two bars that become an X) ---------- */
@@ -597,6 +828,13 @@
   }
 }
 
+/* Contents links glide to their section. */
+@media (prefers-reduced-motion: no-preference) {
+  html:has(.toc) {
+    scroll-behavior: smooth;
+  }
+}
+
 /* Reduced motion: a quick fade instead of the wipe, no sliding. */
 @media (prefers-reduced-motion: reduce) {
   .menu-wipe {
@@ -626,6 +864,11 @@
     transition: none;
   }
 
+  .post-back-link svg,
+  .post-back-link::after,
+  .toc-link,
+  .toc-indicator[data-ready],
+  .toc-link::before,
   .menu-bars span,
   .menu-link::after,
   .menu-aside-link::after,

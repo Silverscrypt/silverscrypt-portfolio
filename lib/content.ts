@@ -21,12 +21,12 @@ export const profile = {
     // Replace with your own photo: drop a square image in /public/images
     // (e.g. profile.jpg) and update the path here.
     src: "/images/profile.jpg",
-    alt: "Portrait of Yashvasin",
+    alt: "Profile Picture",
   },
 };
 
 export const siteDescription =
-  "Personal portfolio of Yashvasin, a computer science student building software.";
+  "Personal portfolio of Yashvasin Sana, a computer science student building software. With an interest in High Performance and Quantum Computing.";
 
 export const nav: NavItem[] = [
   { label: "Home", href: "/" },
@@ -36,7 +36,7 @@ export const nav: NavItem[] = [
 
 // Placeholder URLs: swap in your real profiles.
 export const elsewhere: NavItem[] = [
-  { label: "GitHub", href: "https://github.com/your-handle" },
+  { label: "GitHub", href: "https://github.com/Silverscrypt" },
   { label: "LinkedIn", href: "https://www.linkedin.com/in/your-handle" },
 ];
 
@@ -70,24 +70,7 @@ export const writing = {
   eyebrow: "Notes and essays",
   title: "Writing",
   intro: "Notes on what I'm building and learning.",
-  entries: [
-    {
-      title: "Post title one",
-      summary: "A line or two about what this post covers.",
-      meta: "Nov 2026",
-      href: "#",
-    },
-    {
-      title: "Post title two",
-      summary: "A line or two about what this post covers.",
-      meta: "Oct 2026",
-      href: "#",
-    },
-    {
-      title: "Post title three",
-      summary: "A line or two about what this post covers.",
-      meta: "Sep 2026",
-      href: "#",
-    },
-  ] satisfies Entry[],
+  backLabel: "Go Back",
+  tocLabel: "On this page",
+  // The posts themselves are the .md files in content/writing.
 };

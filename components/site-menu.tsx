@@ -2,16 +2,43 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useId, useRef, useState } from "react";
+import { Suspense, useEffect, useId, useRef, useState } from "react";
 import type { CSSProperties } from "react";
 import { elsewhere, nav } from "@/lib/content";
+import type { NavItem } from "@/lib/content";
+
+type MenuLinkProps = {
+  item: NavItem;
+  onNavigate: () => void;
+  current?: boolean;
+};
+
+function MenuLink({ item, onNavigate, current }: MenuLinkProps) {
+  return (
+    <Link
+      href={item.href}
+      className="menu-link"
+      aria-current={current ? "page" : undefined}
+      onClick={onNavigate}
+    >
+      {item.label}
+    </Link>
+  );
+}
+
+// usePathname suspends on post URLs not known at build time, so it lives in
+// its own component behind a Suspense boundary (see the menu below).
+function CurrentMenuLink(props: MenuLinkProps) {
+  const pathname = usePathname();
+  return <MenuLink {...props} current={pathname === props.item.href} />;
+}
 
 export function SiteMenu() {
   const [open, setOpen] = useState(false);
   const toggleRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const menuId = useId();
-  const pathname = usePathname();
+  const closeMenu = () => setOpen(false);
 
   // While open: lock page scroll, move focus into the menu, close on Escape,
   // and keep Tab cycling through the toggle and the menu links.
@@ -100,14 +127,9 @@ export function SiteMenu() {
                   className="menu-item"
                   style={{ "--i": index } as CSSProperties}
                 >
-                  <Link
-                    href={item.href}
-                    className="menu-link"
-                    aria-current={pathname === item.href ? "page" : undefined}
-                    onClick={() => setOpen(false)}
-                  >
-                    {item.label}
-                  </Link>
+                  <Suspense fallback={<MenuLink item={item} onNavigate={closeMenu} />}>
+                    <CurrentMenuLink item={item} onNavigate={closeMenu} />
+                  </Suspense>
                 </li>
               ))}
             </ul>
