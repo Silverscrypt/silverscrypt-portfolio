@@ -7,7 +7,7 @@ type EntryListProps = {
   label: string;
 };
 
-const isExternal = (href: string) => /^https?:\/\//.test(href);
+export const isExternal = (href: string) => /^https?:\/\//.test(href);
 
 function EntryBody({ entry }: { entry: Entry }) {
   return (
