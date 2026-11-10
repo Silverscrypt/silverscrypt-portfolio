@@ -39,7 +39,7 @@ export const nav: NavItem[] = [
 // Placeholder URLs: swap in your real profiles.
 export const elsewhere: NavItem[] = [
   { label: "GitHub", href: "https://github.com/Silverscrypt" },
-  { label: "LinkedIn", href: "https://www.linkedin.com/in/your-handle" },
+  { label: "LinkedIn", href: "https://www.linkedin.com/in/yashvasin-sana/" },
 ];
 
 export const work = {
