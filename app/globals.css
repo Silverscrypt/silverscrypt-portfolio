@@ -8,7 +8,7 @@
    5. Components       every class used in /components and /app
    6. Motion           keyframes + reduced-motion fallbacks
 
-   Palette rule: black and white carry the page. Orange (--brand) is for
+   Palette rule: black and white carry the page. Colored (--brand) is for
    small details and motion only (dots, rings, underlines, focus), never
    for body text, so it always stays readable.
    ========================================================================== */
@@ -88,7 +88,7 @@
   --border: #e6e3dc;
   --input: #e6e3dc;
 
-  /* shadcn roles mapped onto black / white / orange. */
+  /* shadcn roles mapped onto black / white / Colored. */
   --card: #ffffff;
   --card-foreground: #111111;
   --popover: #ffffff;
@@ -100,11 +100,11 @@
   --accent: #f1efea;
   --accent-foreground: #111111;
   --destructive: #c42b1c;
-  --ring: #f4631e;
+  --ring: #a3e635;
 
-  /* Orange accent. 3.1:1 on --background: fine for marks and focus rings
+  /* Colored accent. 3.1:1 on --background: fine for marks and focus rings
      (3:1 needed), too low for text. */
-  --brand: #f4631e;
+  --brand: #a3e635;
   --brand-foreground: #111111;
 
   /* Full-screen menu. */
@@ -112,7 +112,7 @@
   --menu-foreground: #ededed;
   --menu-muted: #a3a3a3; /* 8.3:1 on --menu */
 
-  --chart-1: #f4631e;
+  --chart-1: #a3e635;
   --chart-2: #111111;
   --chart-3: #6b675f;
   --chart-4: #a3a3a3;
@@ -125,7 +125,7 @@
   --sidebar-accent: #f1efea;
   --sidebar-accent-foreground: #111111;
   --sidebar-border: #e6e3dc;
-  --sidebar-ring: #f4631e;
+  --sidebar-ring: #a3e635;
 
   --radius: 0.625rem;
 
@@ -251,7 +251,7 @@
     @apply block size-full rounded-full object-cover;
   }
 
-  /* Thin orange ring drawn just outside the photo. */
+  /* Thin colored ring drawn just outside the photo. */
   .hero-ring {
     @apply pointer-events-none absolute overflow-visible;
     inset: calc(var(--ring-gap) * -1);
@@ -355,14 +355,14 @@
     @apply pt-2 text-base whitespace-nowrap text-muted-foreground tabular-nums;
   }
 
-  /* Orange dot that grows in beside a linked row. */
+  /* Colored dot that grows in beside a linked row. */
   .entry-marker {
     @apply mt-[1.05rem] size-2 self-start rounded-full bg-brand;
     transform: scale(0);
     transition: transform 0.4s var(--ease-out);
   }
 
-  /* Orange line that sweeps across the top edge of a linked row. */
+  /* Colored line that sweeps across the top edge of a linked row. */
   .entry-link::after {
     @apply absolute inset-x-0 -top-px h-[1.5px] bg-brand content-[''];
     transform: scaleX(0);
@@ -508,7 +508,7 @@
     scroll-margin-top: 6rem;
   }
 
-  /* Text link with an arrow that nudges back and an orange sweep. */
+  /* Text link with an arrow that nudges back and an Colored sweep. */
   .post-back-link {
     @apply relative inline-flex items-center gap-2 text-foreground;
     font-size: 1.05rem;
@@ -609,8 +609,8 @@
     @apply relative;
   }
 
-  /* Orange text and divider line on hover; black stays for the selected item.
-     Deliberate exception to the no-orange-text rule, hover state only. */
+  /* Colored text and divider line on hover; black stays for the selected item.
+     Deliberate exception to the no-Colored-text rule, hover state only. */
   .toc-link::before {
     @apply absolute inset-y-0 -left-px w-px bg-brand opacity-0 content-[''];
     transition: opacity 0.2s ease;
@@ -702,7 +702,7 @@
     transition: none;
   }
 
-  /* Two circles grow from the toggle: orange first, black just behind. */
+  /* Two circles grow from the toggle: Colored first, black just behind. */
   .menu-wipe,
   .menu-panel {
     @apply absolute inset-0;
@@ -762,7 +762,7 @@
     @apply outline-none;
   }
 
-  /* Orange underline that sweeps in on hover or keyboard focus. */
+  /* Colored underline that sweeps in on hover or keyboard focus. */
   .menu-link::after,
   .menu-aside-link::after {
     @apply absolute inset-x-0 bottom-[0.04em] h-0.5 bg-brand content-[''];
@@ -778,7 +778,7 @@
     transform: scaleX(1);
   }
 
-  /* Small orange dot beside the page you are on. */
+  /* Small Colored dot beside the page you are on. */
   .menu-link[aria-current="page"]::before {
     @apply absolute top-[55%] -left-[0.3em] size-[0.1em] rounded-full bg-brand content-[''];
     transform: translateY(-50%);
