@@ -238,6 +238,9 @@
   .hero-vine {
     @apply pointer-events-none absolute inset-0 -z-10 opacity-[0.35];
     background: url("/images/vines.webp") center / cover no-repeat;
+    /* Fade the bottom edge into the page white, so the hero has no hard
+       border where the About section begins. */
+    mask-image: linear-gradient(to bottom, #000 90%, transparent);
   }
 
   .hero-portrait {
@@ -283,6 +286,32 @@
     @apply mx-4 size-[5px] flex-none rounded-full bg-brand;
   }
 
+  /* Arrow at the bottom of the hero, hidden once the page scrolls. */
+  .scroll-cue {
+    @apply absolute bottom-8 left-1/2 grid size-12 -translate-x-1/2 place-items-center rounded-full text-muted-foreground;
+    transition:
+      opacity 0.4s var(--ease-out),
+      visibility 0s linear 0s,
+      color 0.3s ease;
+  }
+
+  .scroll-cue svg {
+    @apply size-6;
+  }
+
+  .scroll-cue[data-hidden="true"] {
+    @apply pointer-events-none invisible opacity-0;
+    transition:
+      opacity 0.4s var(--ease-out),
+      visibility 0s linear 0.4s;
+  }
+
+  @media (hover: hover) {
+    .scroll-cue:hover {
+      @apply text-foreground;
+    }
+  }
+
   @media (max-width: 1100px) {
     .hero-ring circle {
       stroke-width: 0.7;
@@ -306,6 +335,23 @@
     .hero-dot {
       @apply hidden;
     }
+  }
+
+  /* ---------- About (home, below the hero) ---------- */
+
+  .about {
+    @apply mx-auto flex min-h-svh w-full max-w-5xl flex-col justify-center;
+    padding: 8rem var(--gutter);
+  }
+
+  .about-title {
+    @apply max-w-[20ch] font-normal leading-[1.05] tracking-[-0.03em];
+    font-size: clamp(2.25rem, 5.5vw, 4.25rem);
+  }
+
+  .about-body {
+    @apply mt-10 grid max-w-[60ch] gap-5 leading-relaxed text-muted-foreground;
+    font-size: clamp(1.05rem, 1.6vw, 1.25rem);
   }
 
   /* ---------- Entry list (Work and Writing rows) ---------- */
@@ -841,6 +887,15 @@
     animation: rise 0.8s var(--ease-out) 0.8s both;
   }
 
+  /* Arrives after the intro, then hops. */
+  .scroll-cue {
+    animation: fade-in 0.8s ease-out 1.6s backwards;
+  }
+
+  .scroll-cue svg {
+    animation: hop 1.6s var(--ease) 2.2s infinite;
+  }
+
   .page-header {
     animation: rise 0.7s var(--ease-out) both;
   }
@@ -876,9 +931,22 @@
   }
 }
 
-/* Contents links glide to their section. */
+@keyframes hop {
+  0%,
+  60%,
+  100% {
+    transform: translateY(0);
+  }
+
+  30% {
+    transform: translateY(0.5rem);
+  }
+}
+
+/* Contents links and the scroll cue glide to their section. */
 @media (prefers-reduced-motion: no-preference) {
-  html:has(.toc) {
+  html:has(.toc),
+  html:has(.scroll-cue) {
     scroll-behavior: smooth;
   }
 }
