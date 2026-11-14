@@ -1,6 +1,6 @@
 ---
 title: Silverscrypt Portfolio
-summary: Minimalistic NextJS Portfolio with automated Markdown blogs.
+summary: Minimalistic Next.js Portfolio with automated Markdown uploads.
 date: 2026-11-01
 period: 2026
 repo: https://github.com/Silverscrypt/silverscrypt-portfolio
@@ -11,7 +11,7 @@ repo: https://github.com/Silverscrypt/silverscrypt-portfolio
 
 ## Overview
 
-Initially intended for a workshop for my club, I wanted to create a personal portfolio as a way to establish a digital identity. My first iteration was poorly executed and over-engineered. Also I wanted to keep things simple and clean for the visitor. The design was inspired by [Matthew Ao's](https://matthewao.com/) portfolio. I had done my own polishing and personal additions to make the website feel nicer.
+Initially intended for my university club's 'Personal Marketing Workshop', I wanted to create a personal portfolio as a way to establish a digital identity. My first iteration was poorly executed and over-engineered. Also I wanted to keep things simple and clean for the visitor. The design was inspired by [Matthew Ao's](https://matthewao.com/) portfolio. I had done my own polishing and personal additions to make the website feel nicer.
 
 ## How it works
 

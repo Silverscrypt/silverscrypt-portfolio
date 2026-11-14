@@ -1,5 +1,7 @@
 import { cn } from "cn";
+import { ArrowUpRight } from "lucide-react";
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Article } from "@/components/article";
@@ -24,6 +26,20 @@ export async function generateMetadata({
   return project ? { title: project.title, description: project.summary } : {};
 }
 
+// A real link styled as a button, so it's announced as a link.
+function ProjectLink({ href, children }: { href: string; children: ReactNode }) {
+  return (
+    <a
+      className={cn(buttonVariants({ variant: "outline", size: "lg" }), "border-brand")}
+      href={href}
+      target="_blank"
+      rel="noreferrer"
+    >
+      {children}
+    </a>
+  );
+}
+
 export default async function ProjectPage({
   params,
 }: PageProps<"/work/[slug]">) {
@@ -40,17 +56,21 @@ export default async function ProjectPage({
       title={project.title}
       intro={project.summary}
       actions={
-        project.repo && (
-          // A real link styled as a button, so it's announced as a link.
-          <a
-            className={cn(buttonVariants({ variant: "outline", size: "lg" }))}
-            href={project.repo}
-            target="_blank"
-            rel="noreferrer"
-          >
-            <GithubIcon />
-            {work.repoLabel}
-          </a>
+        (project.repo || project.site) && (
+          <>
+            {project.site && (
+              <ProjectLink href={project.site}>
+                <ArrowUpRight aria-hidden="true" />
+                {work.siteLabel}
+              </ProjectLink>
+            )}
+            {project.repo && (
+              <ProjectLink href={project.repo}>
+                <GithubIcon />
+                {work.repoLabel}
+              </ProjectLink>
+            )}
+          </>
         )
       }
       media={

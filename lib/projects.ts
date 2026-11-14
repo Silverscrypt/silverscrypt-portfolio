@@ -11,6 +11,7 @@ import { optionalString, readMarkdownDir, toDate, type MarkdownFile } from "@/li
  *   date:     required, YYYY-MM-DD when it started (sorts the list)
  *   period:   optional label, e.g. "2026 to Present" (defaults to the year)
  *   repo:     optional source code URL, shown as a GitHub button
+ *   site:     optional URL of the deployed project, shown as a Live site button
  *   image:    optional cover image in /public, e.g. /images/work/space.png
  *   imageAlt: optional description of the cover image
  */
@@ -24,6 +25,7 @@ export type Project = {
   date: Date;
   period: string;
   repo?: string;
+  site?: string;
   image?: { src: string; alt: string };
   body: string;
 };
@@ -50,6 +52,7 @@ function toProject({ file, slug, data, body }: MarkdownFile): Project {
     date,
     period: optionalString(data.period) ?? String(date.getUTCFullYear()),
     repo: optionalString(data.repo),
+    site: optionalString(data.site),
     image: image ? { src: image, alt: optionalString(data.imageAlt) ?? "" } : undefined,
     body,
   };

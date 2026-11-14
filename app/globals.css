@@ -219,7 +219,7 @@
   }
 
   .page-actions {
-    @apply mt-10;
+    @apply mt-10 flex flex-wrap gap-3;
   }
 
   /* ---------- Hero (home) ---------- */
@@ -357,11 +357,11 @@
   /* ---------- Entry list (Work and Writing rows) ---------- */
 
   .entry-list {
-    @apply border-b;
+    @apply relative border-b;
   }
 
   .entry {
-    @apply border-t;
+    @apply relative border-t;
     --entry-pad: clamp(1.75rem, 4vw, 2.5rem);
   }
 
@@ -408,12 +408,26 @@
     transition: transform 0.4s var(--ease-out);
   }
 
-  /* Colored line that sweeps across the top edge of a linked row. */
-  .entry-link::after {
-    @apply absolute inset-x-0 -top-px h-[1.5px] bg-brand content-[''];
+  /* Colored lines over the dividers above and below a linked row. One line
+     per divider: each item draws the one above it, the list draws the last
+     one. A divider lights up when the row on either side is active, so
+     moving between neighbouring rows keeps the shared divider lit and only
+     the outer edges sweep in and out. Drawn on the list item, not the link,
+     so the lines also span the GitHub button's column. */
+  .entry::before,
+  .entry-list::after {
+    @apply pointer-events-none absolute inset-x-0 h-[1.5px] bg-brand content-[''];
     transform: scaleX(0);
     transform-origin: left;
     transition: transform 0.6s var(--ease);
+  }
+
+  .entry::before {
+    @apply -top-px;
+  }
+
+  .entry-list::after {
+    @apply -bottom-px;
   }
 
   .entry-link:focus-visible {
@@ -421,13 +435,17 @@
   }
 
   .entry-link:focus-visible .entry-marker,
-  .entry-link:focus-visible::after {
+  .entry:has(> .entry-link:focus-visible)::before,
+  .entry:has(> .entry-link:focus-visible) + .entry::before,
+  .entry-list:has(> .entry:last-child > .entry-link:focus-visible)::after {
     transform: none;
   }
 
   @media (hover: hover) {
     .entry-link:hover .entry-marker,
-    .entry-link:hover::after {
+    .entry:has(> .entry-link:hover)::before,
+    .entry:has(> .entry-link:hover) + .entry::before,
+    .entry-list:has(> .entry:last-child > .entry-link:hover)::after {
       transform: none;
     }
 
@@ -560,8 +578,9 @@
     font-size: 1.05rem;
   }
 
+  /* Colored arrow: an icon, so 3:1 contrast is enough. */
   .post-back-link svg {
-    @apply size-4 flex-none;
+    @apply size-4 flex-none text-brand;
     transition: transform 0.4s var(--ease-out);
   }
 
@@ -592,9 +611,14 @@
     @apply min-w-0;
   }
 
-  /* Sidebar only where there's room for it beside the article. */
-  .toc {
+  /* Sidebar (project links + contents) only where there's room for it beside
+     the article. Below that, the links stay under the intro. */
+  .post-aside {
     @apply hidden;
+  }
+
+  .post-aside-actions {
+    @apply grid justify-items-start gap-2.5;
   }
 
   @media (min-width: 1100px) {
@@ -610,9 +634,14 @@
       grid-column: 2;
     }
 
+    /* The sidebar has the links, so they aren't repeated under the intro. */
+    .post-layout:has(.post-aside-actions) .page-actions {
+      @apply hidden;
+    }
+
     /* Sticks at exactly where it starts, so it never shifts on scroll. */
-    .toc {
-      @apply sticky block w-64 justify-self-end overflow-y-auto;
+    .post-aside {
+      @apply sticky grid w-64 content-start gap-10 justify-self-end overflow-y-auto;
       grid-column: 3;
       top: calc(var(--page-top) + var(--toc-drop));
       margin-top: var(--toc-drop);
@@ -990,7 +1019,8 @@
   .menu-aside-link::after,
   .entry-text,
   .entry-marker,
-  .entry-link::after {
+  .entry::before,
+  .entry-list::after {
     transition: none;
   }
 }

@@ -59,7 +59,7 @@ export function EntryList({
           {/* A sibling of the row, since a link can't contain another link. */}
           {entry.repo && (
             <a
-              className={cn(buttonVariants({ variant: "outline", size: "icon-lg" }), "entry-repo")}
+              className={cn(buttonVariants({ variant: "outline", size: "icon-lg" }), "border-brand", "entry-repo")}
               href={entry.repo}
               target="_blank"
               rel="noreferrer"

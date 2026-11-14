@@ -14,7 +14,8 @@ type ArticleProps = {
   eyebrow: string;
   title: string;
   intro: string;
-  /** Buttons under the intro, e.g. a link to the source code. */
+  /** Links such as the source code. Shown under the intro, or above the
+   *  contents in the sticky sidebar where there's room for one. */
   actions?: ReactNode;
   /** Shown between the header and the body, e.g. a cover image. */
   media?: ReactNode;
@@ -61,10 +62,13 @@ export function Article({
           <BackLink href={backHref} label={backLabel} />
         </div>
       </article>
-      <TableOfContents
-        items={[{ id: TITLE_ID, text: title, level: 2 }, ...getHeadings(markdown)]}
-        label={tocLabel}
-      />
+      <aside className="post-aside">
+        {actions && <div className="post-aside-actions">{actions}</div>}
+        <TableOfContents
+          items={[{ id: TITLE_ID, text: title, level: 2 }, ...getHeadings(markdown)]}
+          label={tocLabel}
+        />
+      </aside>
     </div>
   );
 }

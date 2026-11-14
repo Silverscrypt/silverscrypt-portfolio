@@ -45,11 +45,13 @@ export const elsewhere: NavItem[] = [
 export const work = {
   eyebrow: "Selected projects",
   title: "Work",
-  intro: "A few things I've designed and built.",
-  backLabel: "Back to Work",
+  intro: "A Collection of Notable Projects I've Built.",
+  backLabel: "Go Back",
   tocLabel: "On this page",
   /** Label of the GitHub button on a project page. */
   repoLabel: "Source code",
+  /** Label of the button linking to a deployed project. */
+  siteLabel: "Live site",
   /** Accessible name of the GitHub icon button in the Work list. */
   repoListLabel: (title: string) => `${title} source code on GitHub`,
   // The projects themselves are the .md files in content/work.
@@ -58,7 +60,7 @@ export const work = {
 export const writing = {
   eyebrow: "Notes and essays",
   title: "Writing",
-  intro: "Notes on what I'm building and learning.",
+  intro: "My Spontaneous Blog of Appreciation.",
   backLabel: "Go Back",
   tocLabel: "On this page",
   // The posts themselves are the .md files in content/writing.
