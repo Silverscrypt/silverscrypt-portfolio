@@ -882,6 +882,16 @@
   }
 
   @media (max-width: 760px) {
+    /* Toggle moves to the top right so it clears the article text;
+       the wipe grows from its new position. */
+    .menu-toggle {
+      @apply right-[1.1rem] left-auto;
+    }
+
+    .menu {
+      --origin-x: calc(100% - 2.6rem);
+    }
+
     .menu-panel {
       @apply grid-cols-1 content-center gap-14;
     }
