@@ -728,6 +728,40 @@
     @apply text-menu-foreground;
   }
 
+  /* Thin green ring with a transparent center: a brand disc clipped to the
+     area between an outer circle (r 24) and an inner hole (r 22), using the
+     even-odd rule. Coordinates assume the 48px (size-12) toggle. Fades out
+     once the menu is open, leaving the X on the dark panel. */
+  .menu-toggle::before {
+    @apply absolute inset-0 -z-10 bg-brand content-[''];
+    clip-path: path(
+      evenodd,
+      "M 24 0 A 24 24 0 1 1 24 48 A 24 24 0 1 1 24 0 Z M 24 2 A 22 22 0 1 1 24 46 A 22 22 0 1 1 24 2 Z"
+    );
+    /* Closing: start as the wipe's slow tail settles, then fade back in. */
+    transition:
+      opacity 0.6s ease 0.8s,
+      clip-path 0.45s var(--ease);
+  }
+
+  .menu-toggle[data-open="true"]::before {
+    @apply opacity-0;
+    transition:
+      opacity 0.2s ease,
+      clip-path 0.45s var(--ease); /* opening: hide at once */
+  }
+
+  /* Hover: the hole shrinks to nothing, so the ring closes in to the center
+     and fills the circle green. The bars stay put and stay black. */
+  @media (hover: hover) {
+    .menu-toggle[data-open="false"]:hover::before {
+      clip-path: path(
+        evenodd,
+        "M 24 0 A 24 24 0 1 1 24 48 A 24 24 0 1 1 24 0 Z M 24 24 A 0 0 0 1 1 24 24 A 0 0 0 1 1 24 24 Z"
+      );
+    }
+  }
+
   .menu-bars {
     @apply relative block h-3 w-9;
   }
@@ -753,12 +787,6 @@
 
   .menu-toggle[data-open="true"] .menu-bars span:last-child {
     transform: translateY(-5.25px) rotate(-45deg);
-  }
-
-  @media (hover: hover) {
-    .menu-toggle[data-open="false"]:hover .menu-bars span:last-child {
-      @apply bg-brand;
-    }
   }
 
   /* ---------- Full-screen menu ---------- */
@@ -1010,6 +1038,16 @@
     clip-path: none;
     opacity: 1;
     transition-delay: 0s;
+  }
+
+  /* Disc snaps back only after the panel has faded out. */
+  .menu-toggle::before {
+    /* Gentle fade once the panel is gone; no grow, and an instant hover fill. */
+    transition: opacity 0.3s ease 0.15s;
+  }
+
+  .menu-toggle[data-open="true"]::before {
+    transition: none;
   }
 
   .menu-item,
