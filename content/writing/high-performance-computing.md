@@ -13,7 +13,7 @@ Reference: https://www.ibm.com/think/topics/hpc
 ---
 ## What is it?
 
-Basically throw a bunch of computing resources at a complex problem that would take an eternity to solve. These problems stem from a variety of industries such as chemistry, geology, and mathematics. Specific problems including genome sequencing, intensive 3D graphics rendering, automated trading, computational fluid dynamics, and weather predictions.
+Basically throw a bunch of computing resources at a complex problem that would take an eternity to solve. These problems stem from a variety of industries such as chemistry, meteorology, and mathematics. Specific problems including genome sequencing, intensive 3D graphics rendering, automated trading, computational fluid dynamics, and weather predictions.
 
 
 ## How does it work?
@@ -24,9 +24,9 @@ Basically throw a bunch of computing resources at a complex problem that would t
 
 ##### Computer (HPC) Clusters
 
->"Multiple high-speed computer servers networked with a centralized [^1]scheduler that manages the parallel computing workload"
+>"Multiple high-speed computer servers networked with a centralized scheduler[^1] that manages the parallel computing workload"
 
-- Computers, aliased as 'nodes', more prevalently use GPU's but may use multi-core CPU's to perform mathematical calculations, [^2]ML models, and other intensive tasks
+- Computers, aliased as 'nodes', more prevalently use GPU's but may use multi-core CPU's to perform mathematical calculations, ML[^2] models, and other intensive tasks
 
 ##### Other HPC Components
 - Networking
@@ -45,7 +45,7 @@ Basically throw a bunch of computing resources at a complex problem that would t
 
 ## Why do I want to study it?
 
-Consistently, I had wanted to understand computers from a fundamental level. The best way to learn about computers is to start from the bottom up. From transistors to low level programming. After taking my Computer Organization class at [^3]VT and designing a payload for my rocket design team, I wanted to pursue programming closer to the hardware rather than the software. Although I enjoy building things for the community, that is more of a hobby rather than a specialized skill. 
+Consistently, I had wanted to understand computers from a fundamental level. The best way to learn about computers is to start from the bottom up. From transistors to low level programming. After taking my Computer Organization class at VT[^3] and designing a payload for my rocket design team, I wanted to pursue programming closer to the hardware rather than the software. Although I enjoy building things for the community, that is more of a hobby rather than a specialized skill. 
 
 Hopefully, I will build some interesting projects in C++ using CUDA and the OpenMP library to learn about parallelism.
 
