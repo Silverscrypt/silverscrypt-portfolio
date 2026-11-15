@@ -8,9 +8,9 @@
    5. Components       every class used in /components and /app
    6. Motion           keyframes + reduced-motion fallbacks
 
-   Palette rule: black and white carry the page. Colored (--brand) is for
-   small details and motion only (dots, rings, underlines, focus), never
-   for body text, so it always stays readable.
+   Palette rule: black and white carry the page. The one brand color
+   (--brand) is for small details and motion only (dots, rings, underlines,
+   focus, fills behind black text), never for text on the page.
    ========================================================================== */
 
 /* 1. Imports ------------------------------------------------------------- */
@@ -88,7 +88,7 @@
   --border: #e6e3dc;
   --input: #e6e3dc;
 
-  /* shadcn roles mapped onto black / white / Colored. */
+  /* shadcn roles mapped onto black / white / brand. */
   --card: #ffffff;
   --card-foreground: #111111;
   --popover: #ffffff;
@@ -100,11 +100,14 @@
   --accent: #f1efea;
   --accent-foreground: #111111;
   --destructive: #c42b1c;
-  --ring: #a3e635;
+  --ring: var(--brand);
 
-  /* Colored accent. 3.1:1 on --background: fine for marks and focus rings
-     (3:1 needed), too low for text. */
-  --brand: #a3e635;
+  /* The one brand color: key lime. Every brand use points here.
+     3.3:1 on --background and 6.1:1 on --menu, so it passes the 3:1 needed
+     for focus rings and icons on both. Black text on it is 5.5:1.
+     Too low for text on the page (4.5:1), so never use it for text.
+     Alternative to try: tangerine #e8590c (3.4:1 / 5.9:1 / 5.3:1). */
+  --brand: #e8590c;
   --brand-foreground: #111111;
 
   /* Full-screen menu. */
@@ -112,7 +115,7 @@
   --menu-foreground: #ededed;
   --menu-muted: #a3a3a3; /* 8.3:1 on --menu */
 
-  --chart-1: #a3e635;
+  --chart-1: var(--brand);
   --chart-2: #111111;
   --chart-3: #6b675f;
   --chart-4: #a3a3a3;
@@ -125,7 +128,7 @@
   --sidebar-accent: #f1efea;
   --sidebar-accent-foreground: #111111;
   --sidebar-border: #e6e3dc;
-  --sidebar-ring: #a3e635;
+  --sidebar-ring: var(--brand);
 
   --radius: 0.625rem;
 
@@ -162,7 +165,8 @@
   }
 
   ::selection {
-    background: color-mix(in srgb, var(--brand) 30%, transparent);
+    /* 15% keeps gray text above 4.5:1 for both key lime and tangerine. */
+    background: color-mix(in srgb, var(--brand) 15%, transparent);
     color: inherit;
   }
 }
@@ -188,7 +192,6 @@
   .skip-link:focus-visible {
     transform: none;
   }
-
 
   /* ---------- Page header (Work, Writing, 404) ---------- */
 
@@ -261,7 +264,7 @@
     @apply block size-full rounded-full object-cover;
   }
 
-  /* Thin colored ring drawn just outside the photo. */
+  /* Thin brand ring drawn just outside the photo. */
   .hero-ring {
     @apply pointer-events-none absolute overflow-visible;
     inset: calc(var(--ring-gap) * -1);
@@ -408,14 +411,14 @@
     @apply pt-2 text-base whitespace-nowrap text-muted-foreground tabular-nums;
   }
 
-  /* Colored dot that grows in beside a linked row. */
+  /* Brand dot that grows in beside a linked row. */
   .entry-marker {
     @apply mt-[1.05rem] size-2 self-start rounded-full bg-brand;
     transform: scale(0);
     transition: transform 0.4s var(--ease-out);
   }
 
-  /* Colored lines over the dividers above and below a linked row. One line
+  /* Brand lines over the dividers above and below a linked row. One line
      per divider: each item draws the one above it, the list draws the last
      one. A divider lights up when the row on either side is active, so
      moving between neighbouring rows keeps the shared divider lit and only
@@ -509,8 +512,14 @@
     @apply mt-2;
   }
 
-  .article-body li::marker {
+  /* Bullets are marks, so they take the brand color. List numbers are
+     text, so they stay gray for contrast. */
+  .article-body ul > li::marker {
     color: var(--brand);
+  }
+
+  .article-body ol > li::marker {
+    @apply text-muted-foreground;
   }
 
   .article-body blockquote {
@@ -597,13 +606,13 @@
     transform-origin: left;
   }
 
-  /* Text link with an arrow that nudges back and a colored sweep. */
+  /* Text link with an arrow that nudges back and a brand sweep. */
   .article-back-link {
     @apply relative inline-flex items-center gap-2 text-foreground;
     font-size: 1.05rem;
   }
 
-  /* Colored arrow: an icon, so 3:1 contrast is enough. */
+  /* Brand arrow: an icon beside its text label, so 3:1 is plenty. */
   .article-back-link svg {
     @apply size-4 flex-none text-brand;
     transition: transform 0.4s var(--ease-out);
@@ -709,15 +718,15 @@
     @apply relative;
   }
 
-  /* Colored text and divider line on hover; black stays for the selected item.
-     Deliberate exception to the no-Colored-text rule, hover state only. */
+  /* Hover and focus: the text darkens to black and a brand line appears on
+     the divider. The text never turns brand-colored (too low contrast). */
   .toc-link::before {
     @apply absolute inset-y-0 -left-px w-px bg-brand opacity-0 content-[''];
     transition: opacity 0.2s ease;
   }
 
   .toc-link:not([aria-current]):focus-visible {
-    @apply text-brand;
+    @apply text-foreground;
   }
 
   .toc-link:not([aria-current]):focus-visible::before {
@@ -726,7 +735,7 @@
 
   @media (hover: hover) {
     .toc-link:not([aria-current]):hover {
-      @apply text-brand;
+      @apply text-foreground;
     }
 
     .toc-link:not([aria-current]):hover::before {
@@ -753,13 +762,16 @@
     @apply text-menu-foreground;
   }
 
-  /* Thin green ring with a transparent center: a brand disc clipped to the
+  /* Thin brand ring with a transparent center: a brand disc clipped to the
      area between an outer circle (r 24) and an inner hole (r 22), using the
      even-odd rule. Coordinates assume the 48px (size-12) toggle. Hover
      shrinks the hole to nothing, closing the ring into a filled disc. */
   .menu-toggle::before {
     @apply absolute inset-0 -z-10 bg-brand content-[''];
-    clip-path: path(evenodd, "M 24 0 A 24 24 0 1 1 24 48 A 24 24 0 1 1 24 0 Z M 24 2 A 22 22 0 1 1 24 46 A 22 22 0 1 1 24 2 Z");
+    clip-path: path(
+      evenodd,
+      "M 24 0 A 24 24 0 1 1 24 48 A 24 24 0 1 1 24 0 Z M 24 2 A 22 22 0 1 1 24 46 A 22 22 0 1 1 24 2 Z"
+    );
     transition-property: opacity, clip-path;
     transition-timing-function: ease, var(--ease);
     /* Closing: wait for the wipe's slow tail, then fade back in. */
@@ -776,7 +788,10 @@
 
   @media (hover: hover) {
     .menu-toggle[data-open="false"]:hover::before {
-      clip-path: path(evenodd, "M 24 0 A 24 24 0 1 1 24 48 A 24 24 0 1 1 24 0 Z M 24 24 A 0 0 0 1 1 24 24 A 0 0 0 1 1 24 24 Z");
+      clip-path: path(
+        evenodd,
+        "M 24 0 A 24 24 0 1 1 24 48 A 24 24 0 1 1 24 0 Z M 24 24 A 0 0 0 1 1 24 24 A 0 0 0 1 1 24 24 Z"
+      );
     }
   }
 
@@ -821,7 +836,7 @@
     transition: none;
   }
 
-  /* Two circles grow from the toggle: Colored first, black just behind. */
+  /* Two circles grow from the toggle: brand first, black just behind. */
   .menu-wipe,
   .menu-panel {
     @apply absolute inset-0;
@@ -881,7 +896,7 @@
     @apply outline-none;
   }
 
-  /* Colored underline that sweeps in on hover or keyboard focus. */
+  /* Brand underline that sweeps in on hover or keyboard focus. */
   .menu-link::after,
   .menu-aside-link::after {
     @apply absolute inset-x-0 bottom-[0.04em] h-0.5 bg-brand content-[''];
@@ -897,7 +912,7 @@
     transform: scaleX(1);
   }
 
-  /* Small Colored dot beside the page you are on. */
+  /* Small brand dot beside the page you are on. */
   .menu-link[aria-current="page"]::before {
     @apply absolute top-[55%] -left-[0.3em] size-[0.1em] rounded-full bg-brand content-[''];
     transform: translateY(-50%);
