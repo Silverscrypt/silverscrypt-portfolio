@@ -10,7 +10,7 @@ export default function WritingPage() {
   return (
     <div className="page">
       <PageHeader eyebrow={writing.eyebrow} title={writing.title} intro={writing.intro} />
-      <EntryList entries={getPosts().map(toEntry)} label="Posts" />
+      <EntryList entries={getPosts().map(toEntry)} label={writing.listLabel} />
     </div>
   );
 }

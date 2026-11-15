@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Article } from "@/components/article";
-import { writing } from "@/lib/content";
 import { getPost, getPosts } from "@/lib/posts";
 
 // Posts are prerendered from their .md files, so a loading placeholder would
@@ -30,8 +29,6 @@ export default async function PostPage({
   return (
     <Article
       backHref="/writing"
-      backLabel={writing.backLabel}
-      tocLabel={writing.tocLabel}
       eyebrow={post.dateLabel}
       title={post.title}
       intro={post.summary}

@@ -52,20 +52,21 @@ export function TableOfContents({ items, label }: TableOfContentsProps) {
       pinnedRef.current = false;
     };
 
+    // One signal removes every listener on cleanup.
+    const listeners = new AbortController();
+    const { signal } = listeners;
+    const passive = { passive: true, signal };
+
     schedule();
-    window.addEventListener("scroll", schedule, { passive: true });
-    window.addEventListener("resize", schedule);
-    window.addEventListener("scrollend", unpin);
-    window.addEventListener("wheel", unpin, { passive: true });
-    window.addEventListener("touchmove", unpin, { passive: true });
+    window.addEventListener("scroll", schedule, passive);
+    window.addEventListener("resize", schedule, { signal });
+    window.addEventListener("scrollend", unpin, { signal });
+    window.addEventListener("wheel", unpin, passive);
+    window.addEventListener("touchmove", unpin, passive);
     return () => {
+      listeners.abort();
       cancelAnimationFrame(frame);
       window.clearTimeout(pinTimerRef.current);
-      window.removeEventListener("scroll", schedule);
-      window.removeEventListener("resize", schedule);
-      window.removeEventListener("scrollend", unpin);
-      window.removeEventListener("wheel", unpin);
-      window.removeEventListener("touchmove", unpin);
     };
   }, [items]);
 

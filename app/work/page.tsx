@@ -10,11 +10,7 @@ export default function WorkPage() {
   return (
     <div className="page">
       <PageHeader eyebrow={work.eyebrow} title={work.title} intro={work.intro} />
-      <EntryList
-        entries={getProjects().map(toEntry)}
-        label="Projects"
-        repoLabel={work.repoListLabel}
-      />
+      <EntryList entries={getProjects().map(toEntry)} label={work.listLabel} />
     </div>
   );
 }

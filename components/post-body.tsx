@@ -1,7 +1,7 @@
 import Markdown from "react-markdown";
 import type { Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { isExternal } from "@/components/entry-list";
+import { ExternalLink, isExternal } from "@/components/external-link";
 import { remarkHeadingIds } from "@/lib/headings";
 
 const components: Components = {
@@ -9,9 +9,7 @@ const components: Components = {
   h1: "h2",
   a: ({ href, children }) =>
     href && isExternal(href) ? (
-      <a href={href} target="_blank" rel="noreferrer">
-        {children}
-      </a>
+      <ExternalLink href={href}>{children}</ExternalLink>
     ) : (
       <a href={href}>{children}</a>
     ),

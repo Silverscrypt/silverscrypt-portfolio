@@ -4,8 +4,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Suspense, useEffect, useId, useRef, useState } from "react";
 import type { CSSProperties } from "react";
-import { elsewhere, nav } from "@/lib/content";
-import type { NavItem } from "@/lib/content";
+import { ExternalLink } from "@/components/external-link";
+import { elsewhere, menu, nav, type NavItem } from "@/lib/content";
 
 type MenuLinkProps = {
   item: NavItem;
@@ -101,7 +101,7 @@ export function SiteMenu() {
         aria-controls={menuId}
         onClick={() => setOpen((value) => !value)}
       >
-        <span className="sr-only">{open ? "Close menu" : "Open menu"}</span>
+        <span className="sr-only">{open ? menu.close : menu.open}</span>
         <span className="menu-bars" aria-hidden="true">
           <span />
           <span />
@@ -115,11 +115,11 @@ export function SiteMenu() {
         data-open={open}
         role="dialog"
         aria-modal="true"
-        aria-label="Site menu"
+        aria-label={menu.label}
       >
         <div className="menu-wipe" aria-hidden="true" />
         <div className="menu-panel">
-          <nav aria-label="Primary">
+          <nav aria-label={menu.primaryLabel}>
             <ul className="menu-primary">
               {nav.map((item, index) => (
                 <li
@@ -136,18 +136,13 @@ export function SiteMenu() {
           </nav>
 
           <div className="menu-aside">
-            <h2 className="menu-aside-title">My Links</h2>
+            <h2 className="menu-aside-title">{menu.asideTitle}</h2>
             <ul className="menu-aside-list">
               {elsewhere.map((item) => (
                 <li key={item.href}>
-                  <a
-                    href={item.href}
-                    className="menu-aside-link"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
+                  <ExternalLink href={item.href} className="menu-aside-link">
                     {item.label}
-                  </a>
+                  </ExternalLink>
                 </li>
               ))}
             </ul>

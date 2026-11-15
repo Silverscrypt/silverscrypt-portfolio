@@ -1,13 +1,14 @@
-import { cn } from "cn";
 import { ArrowUpRight } from "lucide-react";
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Article } from "@/components/article";
+import { ExternalLink } from "@/components/external-link";
 import { GithubIcon } from "@/components/github-icon";
 import { buttonVariants } from "@/components/ui/button";
 import { work } from "@/lib/content";
+import { cn } from "@/lib/utils";
 import { getProject, getProjects } from "@/lib/projects";
 
 // Projects are prerendered from their .md files, so a loading placeholder
@@ -29,14 +30,13 @@ export async function generateMetadata({
 // A real link styled as a button, so it's announced as a link.
 function ProjectLink({ href, children }: { href: string; children: ReactNode }) {
   return (
-    <a
-      className={cn(buttonVariants({ variant: "outline", size: "lg" }), "border-brand")}
+    // cn() resolves the clashing border classes, so the outline shows.
+    <ExternalLink
+      className={cn(buttonVariants({ variant: "outline", size: "lg" }), "project-link")}
       href={href}
-      target="_blank"
-      rel="noreferrer"
     >
       {children}
-    </a>
+    </ExternalLink>
   );
 }
 
@@ -50,8 +50,6 @@ export default async function ProjectPage({
   return (
     <Article
       backHref="/work"
-      backLabel={work.backLabel}
-      tocLabel={work.tocLabel}
       eyebrow={project.period}
       title={project.title}
       intro={project.summary}

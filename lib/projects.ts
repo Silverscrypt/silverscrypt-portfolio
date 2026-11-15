@@ -1,6 +1,13 @@
 import path from "node:path";
+import { cache } from "react";
 import type { Entry } from "@/lib/content";
-import { optionalString, readMarkdownDir, toDate, type MarkdownFile } from "@/lib/markdown-files";
+import {
+  loadNewestFirst,
+  optionalString,
+  requireFields,
+  type MarkdownFile,
+  type RequiredFields,
+} from "@/lib/markdown-files";
 
 /**
  * Every .md file in content/work is a project. The file name becomes the URL
@@ -18,52 +25,35 @@ import { optionalString, readMarkdownDir, toDate, type MarkdownFile } from "@/li
 
 const DIR = path.join(process.cwd(), "content", "work");
 
-export type Project = {
-  slug: string;
-  title: string;
-  summary: string;
-  date: Date;
+export type Project = RequiredFields & {
   period: string;
   repo?: string;
   site?: string;
   image?: { src: string; alt: string };
-  body: string;
 };
 
-function toProject({ file, slug, data, body }: MarkdownFile): Project {
-  const date = toDate(data.date);
-
-  // Fail the build with a useful message rather than publish a broken page.
-  if (typeof data.title !== "string" || typeof data.summary !== "string" || !date) {
-    throw new Error(
-      `${file} needs a title, a summary and a date (YYYY-MM-DD) in its frontmatter.`,
-    );
-  }
+function toProject(file: MarkdownFile): Project {
+  const fields = requireFields(file);
+  const { data } = file;
 
   const image = optionalString(data.image);
   if (image && !image.startsWith("/")) {
-    throw new Error(`${file}: image should be a path in /public, e.g. /images/work/cover.png.`);
+    throw new Error(
+      `${file.file}: image should be a path in /public, e.g. /images/work/cover.png.`,
+    );
   }
 
   return {
-    slug,
-    title: data.title,
-    summary: data.summary,
-    date,
-    period: optionalString(data.period) ?? String(date.getUTCFullYear()),
+    ...fields,
+    period: optionalString(data.period) ?? String(fields.date.getUTCFullYear()),
     repo: optionalString(data.repo),
     site: optionalString(data.site),
     image: image ? { src: image, alt: optionalString(data.imageAlt) ?? "" } : undefined,
-    body,
   };
 }
 
-/** All projects, newest first. */
-export function getProjects(): Project[] {
-  return readMarkdownDir(DIR)
-    .map(toProject)
-    .sort((a, b) => b.date.getTime() - a.date.getTime());
-}
+/** All projects, newest first. Read once per request. */
+export const getProjects = cache((): Project[] => loadNewestFirst(DIR, toProject));
 
 export function getProject(slug: string): Project | undefined {
   return getProjects().find((project) => project.slug === slug);
