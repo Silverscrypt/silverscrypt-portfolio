@@ -13,7 +13,7 @@ Reference: https://www.ibm.com/think/topics/hpc
 ---
 ## What is it?
 
-Basically throw a bunch of computing resources at a complex problem that would take an eternity to solve. These problems stem from a variety of industries such as chemistry, geology, and mathematics. Specific problems including genome sequencing, intensive 3D graphics rendering, automated trading, computational fluid dynamics, and weather predictions.
+Basically throw a bunch of computing resources at a complex problem that would take an eternity to solve. These problems stem from a variety of industries such as chemistry, meteorology, and mathematics. Specific problems including genome sequencing, intensive 3D graphics rendering, automated trading, computational fluid dynamics, and weather predictions.
 
 
 ## How does it work?
