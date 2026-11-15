@@ -21,8 +21,9 @@ No environment variables or accounts are needed.
 | Photo | Add a square image to `public/images/`, then set `profile.image.src` and `alt` in `lib/content.ts` |
 | Menu links | `nav` in `lib/content.ts` (each one needs a matching page in `app/`) |
 | GitHub, LinkedIn and other profile links | `elsewhere` in `lib/content.ts` |
-| Projects on the Work page | `work.entries` in `lib/content.ts` |
-| Writing page title and intro, back button text | `writing` in `lib/content.ts` |
+| Projects on the Work page | One `.md` file per project in `content/work/` (frontmatter fields are listed in `lib/projects.ts`) |
+| Writing page title and intro | `writing` in `lib/content.ts` (posts are the `.md` files in `content/writing/`) |
+| Back button and contents labels on posts and projects | `article` in `lib/content.ts` |
 | Colors, spacing, animation | `app/globals.css` |
 | Font (Figtree, self-hosted) | `app/layout.tsx` |
 | Favicon | `app/icon.svg` |
@@ -65,7 +66,7 @@ These are all in `app/globals.css`.
 | Page background and text colors | `--background`, `--foreground`, `--muted-foreground` in section 3 |
 | Menu colors | `--menu`, `--menu-foreground`, `--menu-muted` in section 3 |
 | Animation easing | `--ease`, `--ease-out` in section 3 |
-| Height of the table of contents | `--toc-drop` under `.post-layout` (larger is lower) |
+| Height of the table of contents | `--toc-drop` under `.article-layout` (larger is lower) |
 | Home page background | `opacity` under `.hero-vine` (keep it at 0.28 or below so the tagline stays readable). The image is `public/images/vines.webp` |
 
 Colors set in section 3 apply across the whole site, including shadcn components.
@@ -90,7 +91,7 @@ All styling lives in `app/globals.css`. Components only use class names such as 
 | 2. Theme mapping | Exposes tokens as Tailwind utilities (`bg-brand`, `text-muted-foreground`, …) |
 | 3. Design tokens | shadcn color roles plus `--brand` (orange) and `--menu-*` colors |
 | 4. Base | Element defaults, focus ring, selection color |
-| 5. Components | `.page`, `.hero-*`, `.entry-*`, `.post-*`, `.toc-*`, `.menu-*`, `.skip-link`, … |
+| 5. Components | `.page`, `.hero-*`, `.entry-*`, `.article-*`, `.toc-*`, `.menu-*`, `.skip-link`, … |
 | 6. Motion | Keyframes and the reduced-motion fallbacks |
 
 The shadcn components in `components/ui/` keep their default variant classes so they can be updated with the shadcn CLI. To add one:

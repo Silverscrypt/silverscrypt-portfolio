@@ -1,7 +1,7 @@
 import path from "node:path";
 import { cache } from "react";
 import type { Entry } from "@/lib/content";
-import { loadNewestFirst, requireFields, type RequiredFields } from "@/lib/markdown-files";
+import { loadNewestFirst, requireFields, type RequiredFields } from "@/lib/markdown/files";
 
 /**
  * Every .md file in content/writing is a post. The file name becomes the URL

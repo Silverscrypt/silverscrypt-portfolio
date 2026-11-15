@@ -3,7 +3,15 @@ import { toString } from "mdast-util-to-string";
 import remarkGfm from "remark-gfm";
 import remarkParse from "remark-parse";
 import { unified } from "unified";
-import type { TocItem } from "@/components/table-of-contents";
+
+/** One entry in an article's table of contents. */
+export type TocItem = {
+  /** The id of the heading this item links to. */
+  id: string;
+  text: string;
+  /** 3 marks a sub-header, which is indented. */
+  level: 2 | 3;
+};
 
 /**
  * Gives each top-level #, ## and ### heading a unique id and returns them in

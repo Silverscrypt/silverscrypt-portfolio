@@ -1,14 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-
-export type TocItem = {
-  /** The id of the heading this item links to. */
-  id: string;
-  text: string;
-  /** 3 marks a sub-header, which is indented. */
-  level: 2 | 3;
-};
+import type { TocItem } from "@/lib/markdown/headings";
 
 type TableOfContentsProps = {
   items: TocItem[];
