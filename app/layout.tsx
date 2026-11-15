@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { SiteMenu } from "@/components/site-menu";
-import { profile, siteDescription } from "@/lib/content";
+import { profile, site, siteDescription } from "@/lib/content";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 
@@ -24,7 +24,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html lang="en" className={figtree.variable} data-scroll-behavior="smooth">
       <body>
         <a className="skip-link" href="#main">
-          Skip to content
+          {site.skipLink}
         </a>
         <SiteMenu />
         <main id="main">{children}</main>

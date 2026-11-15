@@ -42,18 +42,53 @@ export const elsewhere: NavItem[] = [
   { label: "LinkedIn", href: "https://www.linkedin.com/in/yashvasin-sana/" },
 ];
 
+export const site = {
+  skipLink: "Skip to content",
+};
+
+export const menu = {
+  /** Accessible names for the dialog, the toggle and the main links. */
+  label: "Site menu",
+  open: "Open menu",
+  close: "Close menu",
+  primaryLabel: "Primary",
+  /** Heading above the elsewhere links. */
+  asideTitle: "My Links",
+};
+
+export const about = {
+  eyebrow: "About",
+  title: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+  paragraphs: [
+    "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+    "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    "Curabitur pretium tincidunt lacus. Nulla gravida orci a odio. Nullam varius, turpis et commodo pharetra, est eros bibendum elit, nec luctus magna felis sollicitudin mauris.",
+  ],
+  /** Accessible name of the arrow at the bottom of the hero. */
+  scrollCueLabel: "Scroll to About",
+};
+
+/** Shared by Writing posts and Work project pages. */
+export const article = {
+  backLabel: "Go Back",
+  tocLabel: "On this page",
+};
+
+export const entryList = {
+  /** Accessible name of a row's GitHub icon button. */
+  repoLabel: (title: string) => `${title} source code on GitHub`,
+};
+
 export const work = {
   eyebrow: "Selected projects",
   title: "Work",
   intro: "A Collection of Notable Projects I've Built.",
-  backLabel: "Go Back",
-  tocLabel: "On this page",
+  /** Accessible name of the list of projects. */
+  listLabel: "Projects",
   /** Label of the GitHub button on a project page. */
   repoLabel: "Source code",
   /** Label of the button linking to a deployed project. */
   siteLabel: "Live site",
-  /** Accessible name of the GitHub icon button in the Work list. */
-  repoListLabel: (title: string) => `${title} source code on GitHub`,
   // The projects themselves are the .md files in content/work.
 };
 
@@ -61,7 +96,14 @@ export const writing = {
   eyebrow: "Notes and essays",
   title: "Writing",
   intro: "My Spontaneous Blog of Appreciation.",
-  backLabel: "Go Back",
-  tocLabel: "On this page",
+  /** Accessible name of the list of posts. */
+  listLabel: "Posts",
   // The posts themselves are the .md files in content/writing.
+};
+
+export const notFound = {
+  eyebrow: "404",
+  title: "Page not found",
+  intro: "That address doesn't match anything on this site.",
+  homeLabel: "Go to the home page",
 };

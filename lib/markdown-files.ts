@@ -15,6 +15,15 @@ export type MarkdownFile = {
   body: string;
 };
 
+/** The frontmatter every post and project needs. */
+export type RequiredFields = {
+  slug: string;
+  title: string;
+  summary: string;
+  date: Date;
+  body: string;
+};
+
 function toSlug(file: string) {
   return file
     .replace(/\.md$/i, "")
@@ -48,4 +57,28 @@ export function toDate(value: unknown): Date | undefined {
 export function optionalString(value: unknown) {
   const text = typeof value === "number" ? String(value) : value;
   return typeof text === "string" && text.trim() ? text.trim() : undefined;
+}
+
+/**
+ * Checks the title, summary and date, failing the build with a useful
+ * message rather than publishing a broken page.
+ */
+export function requireFields({ file, slug, data, body }: MarkdownFile): RequiredFields {
+  const date = toDate(data.date);
+  if (typeof data.title !== "string" || typeof data.summary !== "string" || !date) {
+    throw new Error(
+      `${file} needs a title, a summary and a date (YYYY-MM-DD) in its frontmatter.`,
+    );
+  }
+  return { slug, title: data.title, summary: data.summary, date, body };
+}
+
+/** Reads a folder into items, newest first. */
+export function loadNewestFirst<T extends { date: Date }>(
+  dir: string,
+  toItem: (file: MarkdownFile) => T,
+): T[] {
+  return readMarkdownDir(dir)
+    .map(toItem)
+    .sort((a, b) => b.date.getTime() - a.date.getTime());
 }

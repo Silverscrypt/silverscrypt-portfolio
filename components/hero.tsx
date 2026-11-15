@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { Fragment } from "react";
-import { profile } from "@/lib/content";
+import { about, profile } from "@/lib/content";
 import { ScrollCue } from "@/components/scroll-cue";
 
 export function Hero() {
@@ -35,7 +35,7 @@ export function Hero() {
         </p>
       </div>
 
-      <ScrollCue href="#about" />
+      <ScrollCue href="#about" label={about.scrollCueLabel} />
     </section>
   );
 }

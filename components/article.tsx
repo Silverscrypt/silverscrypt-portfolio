@@ -4,13 +4,12 @@ import type { ReactNode } from "react";
 import { PageHeader } from "@/components/page-header";
 import { PostBody } from "@/components/post-body";
 import { TableOfContents } from "@/components/table-of-contents";
+import { article } from "@/lib/content";
 import { getHeadings } from "@/lib/headings";
 
 type ArticleProps = {
   /** Where the back links go, e.g. "/writing". */
   backHref: string;
-  backLabel: string;
-  tocLabel: string;
   eyebrow: string;
   title: string;
   intro: string;
@@ -26,11 +25,11 @@ type ArticleProps = {
 // top. Heading ids never contain a double dash, so this can't collide with one.
 const TITLE_ID = "post--title";
 
-function BackLink({ href, label }: { href: string; label: string }) {
+function BackLink({ href }: { href: string }) {
   return (
     <Link className="post-back-link" href={href}>
       <ArrowLeft aria-hidden="true" />
-      {label}
+      {article.backLabel}
     </Link>
   );
 }
@@ -38,8 +37,6 @@ function BackLink({ href, label }: { href: string; label: string }) {
 /** A Writing post or a Work project page: header, Markdown body and contents. */
 export function Article({
   backHref,
-  backLabel,
-  tocLabel,
   eyebrow,
   title,
   intro,
@@ -51,7 +48,7 @@ export function Article({
     <div className="page post-layout" id={TITLE_ID}>
       <article className="post-article">
         <div className="post-back-top">
-          <BackLink href={backHref} label={backLabel} />
+          <BackLink href={backHref} />
         </div>
         <PageHeader eyebrow={eyebrow} title={title} intro={intro}>
           {actions}
@@ -59,14 +56,14 @@ export function Article({
         {media}
         <PostBody markdown={markdown} />
         <div className="post-back">
-          <BackLink href={backHref} label={backLabel} />
+          <BackLink href={backHref} />
         </div>
       </article>
       <aside className="post-aside">
         {actions && <div className="post-aside-actions">{actions}</div>}
         <TableOfContents
           items={[{ id: TITLE_ID, text: title, level: 2 }, ...getHeadings(markdown)]}
-          label={tocLabel}
+          label={article.tocLabel}
         />
       </aside>
     </div>

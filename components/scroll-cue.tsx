@@ -3,8 +3,14 @@
 import { ArrowDown } from "lucide-react";
 import { useEffect, useState } from "react";
 
+type ScrollCueProps = {
+  href: string;
+  /** Accessible name, e.g. "Scroll to About". */
+  label: string;
+};
+
 /** Hopping arrow at the bottom of the hero. Goes away once the page scrolls. */
-export function ScrollCue({ href }: { href: string }) {
+export function ScrollCue({ href, label }: ScrollCueProps) {
   const [hidden, setHidden] = useState(false);
 
   useEffect(() => {
@@ -18,7 +24,7 @@ export function ScrollCue({ href }: { href: string }) {
     <a
       className="scroll-cue"
       href={href}
-      aria-label="Scroll to About"
+      aria-label={label}
       data-hidden={hidden}
       tabIndex={hidden ? -1 : undefined}
     >
