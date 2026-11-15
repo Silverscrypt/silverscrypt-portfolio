@@ -217,7 +217,7 @@
   /* Outline buttons in these spots get a brand border. Done through the
      token so the shadcn button classes stay untouched. */
   .page-actions,
-  .post-aside-actions,
+  .article-aside-actions,
   .entry-repo {
     --border: var(--brand);
   }
@@ -471,89 +471,89 @@
     }
   }
 
-  /* ---------- Post (rendered Markdown) ---------- */
+  /* ---------- Article body (rendered Markdown, Work and Writing) ---------- */
 
-  .post-body {
+  .article-body {
     @apply max-w-[68ch] leading-relaxed;
     font-size: clamp(1.05rem, 1.6vw, 1.2rem);
     overflow-wrap: anywhere;
   }
 
-  .post-body > * + * {
+  .article-body > * + * {
     @apply mt-5;
   }
 
-  .post-body h2 {
+  .article-body h2 {
     @apply mt-14 font-normal leading-tight tracking-[-0.015em];
     font-size: clamp(1.6rem, 3vw, 2.25rem);
   }
 
-  .post-body h3,
-  .post-body h4 {
+  .article-body h3,
+  .article-body h4 {
     @apply mt-10 text-[1.25em] font-medium leading-snug;
   }
 
-  .post-body a {
+  .article-body a {
     @apply underline decoration-brand decoration-1 underline-offset-[0.2em];
   }
 
-  .post-body ul {
+  .article-body ul {
     @apply list-disc pl-6;
   }
 
-  .post-body ol {
+  .article-body ol {
     @apply list-decimal pl-6;
   }
 
-  .post-body li + li {
+  .article-body li + li {
     @apply mt-2;
   }
 
-  .post-body li::marker {
+  .article-body li::marker {
     color: var(--brand);
   }
 
-  .post-body blockquote {
+  .article-body blockquote {
     @apply border-l-2 border-brand pl-5 text-muted-foreground;
   }
 
-  .post-body hr {
+  .article-body hr {
     @apply my-12;
   }
 
-  .post-body img {
+  .article-body img {
     @apply h-auto max-w-full rounded-md;
   }
 
-  .post-body code {
+  .article-body code {
     @apply rounded-sm bg-muted px-1.5 py-0.5 font-mono text-[0.88em];
   }
 
-  .post-body pre {
+  .article-body pre {
     @apply overflow-x-auto rounded-md bg-muted p-4 leading-normal;
     overflow-wrap: normal;
   }
 
-  .post-body pre code {
+  .article-body pre code {
     @apply bg-transparent p-0;
   }
 
   /* Wide tables scroll inside the column instead of widening the page. */
-  .post-body table {
+  .article-body table {
     @apply block max-w-full overflow-x-auto border-collapse;
     overflow-wrap: normal;
   }
 
-  .post-body th,
-  .post-body td {
+  .article-body th,
+  .article-body td {
     @apply border-b px-3 py-2 text-left;
   }
 
-  .post-body th {
+  .article-body th {
     @apply font-medium;
   }
 
-  .post-back {
+  .article-back {
     @apply mt-16;
   }
 
@@ -561,7 +561,7 @@
 
   .project-cover {
     @apply max-w-[68ch] overflow-hidden rounded-md border bg-card;
-    /* Same font size as .post-body, so 68ch lines up with the text column. */
+    /* Same font size as .article-body, so 68ch lines up with the text column. */
     font-size: clamp(1.05rem, 1.6vw, 1.2rem);
     margin-bottom: clamp(2.5rem, 6vw, 4rem);
   }
@@ -570,66 +570,84 @@
     @apply block h-auto w-full;
   }
 
-  .post-back-top {
+  .article-back-top {
     @apply mb-10;
   }
 
   /* Land headings below the top of the viewport when jumped to. */
-  .post-body [id] {
+  .article-body [id] {
     scroll-margin-top: 6rem;
   }
 
-  /* Text link with an arrow that nudges back and an Colored sweep. */
-  .post-back-link {
+  /* Footnote jumps (to the note and back) land mid-screen, where the eye
+     already is, instead of at the very top. */
+  .article-body [id^="user-content-fn"] {
+    scroll-margin-top: 45svh;
+  }
+
+  /* A footnote marker and its word. When the reader comes back from the
+     note, a brand bar sweeps in behind them, then fades (section 6). */
+  .article-footnote-ref {
+    @apply relative isolate;
+  }
+
+  .article-footnote-ref::before {
+    @apply absolute -z-10 rounded-sm bg-brand opacity-0 content-[''];
+    inset: 0.05em -0.2em;
+    transform-origin: left;
+  }
+
+  /* Text link with an arrow that nudges back and a colored sweep. */
+  .article-back-link {
     @apply relative inline-flex items-center gap-2 text-foreground;
     font-size: 1.05rem;
   }
 
   /* Colored arrow: an icon, so 3:1 contrast is enough. */
-  .post-back-link svg {
+  .article-back-link svg {
     @apply size-4 flex-none text-brand;
     transition: transform 0.4s var(--ease-out);
   }
 
-  .post-back-link::after {
+  .article-back-link::after {
     @apply absolute inset-x-0 -bottom-1 h-px bg-brand content-[''];
     transform: scaleX(0);
     transform-origin: left;
     transition: transform 0.5s var(--ease);
   }
 
-  .post-back-link:focus-visible::after {
+  .article-back-link:focus-visible::after {
     transform: scaleX(1);
   }
 
   @media (hover: hover) {
-    .post-back-link:hover::after {
+    .article-back-link:hover::after {
       transform: scaleX(1);
     }
 
-    .post-back-link:hover svg {
+    .article-back-link:hover svg {
       transform: translateX(-0.25rem);
     }
   }
 
-  /* ---------- Post layout and table of contents ---------- */
+  /* ---------- Article layout and table of contents ---------- */
 
-  .post-article {
+  .article-main {
     @apply min-w-0;
   }
 
   /* Sidebar (project links + contents) only where there's room for it beside
      the article. Below that, the links stay under the intro. */
-  .post-aside {
+  .article-aside {
     @apply hidden;
   }
 
-  .post-aside-actions {
+  .article-aside-actions {
     @apply grid justify-items-start gap-2.5;
   }
 
   @media (min-width: 1100px) {
-    .post-layout {
+    .article-layout {
       --toc-drop: 5rem; /* how far below the top of the article it sits */
 
       @apply grid max-w-none items-start;
@@ -637,17 +655,17 @@
       grid-template-columns: minmax(0, 1fr) minmax(0, 60rem) minmax(19rem, 1fr);
     }
 
-    .post-article {
+    .article-main {
       grid-column: 2;
     }
 
     /* The sidebar has the links, so they aren't repeated under the intro. */
-    .post-layout:has(.post-aside-actions) .page-actions {
+    .article-layout:has(.article-aside-actions) .page-actions {
       @apply hidden;
     }
 
     /* Sticks at exactly where it starts, so it never shifts on scroll. */
-    .post-aside {
+    .article-aside {
       @apply sticky grid w-64 content-start gap-10 justify-self-end overflow-y-auto;
       grid-column: 3;
       top: calc(var(--page-top) + var(--toc-drop));
@@ -968,6 +986,41 @@
   .project-cover {
     animation: rise 0.7s var(--ease-out) 0.15s both;
   }
+
+  /* Waits for the smooth scroll to arrive, sweeps in, holds, fades out. */
+  .article-footnote-ref[data-highlight]::before {
+    animation: footnote-highlight 2.6s var(--ease-out) 0.4s both;
+  }
+}
+
+@keyframes footnote-highlight {
+  0% {
+    opacity: 1;
+    transform: scaleX(0);
+  }
+
+  20%,
+  65% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scaleX(1);
+  }
+}
+
+@keyframes footnote-glow {
+  0%,
+  100% {
+    opacity: 0;
+  }
+
+  15%,
+  65% {
+    opacity: 1;
+  }
 }
 
 @keyframes fade-in {
@@ -1051,6 +1104,11 @@
     --tw-duration: 0s;
   }
 
+  /* Footnote highlight: no sweep, just a fade in and out. */
+  .article-footnote-ref[data-highlight]::before {
+    animation: footnote-glow 2.2s ease both;
+  }
+
   .menu-item,
   .menu[data-open="true"] .menu-item {
     opacity: 1;
@@ -1058,8 +1116,8 @@
     transition: none;
   }
 
-  .post-back-link svg,
-  .post-back-link::after,
+  .article-back-link svg,
+  .article-back-link::after,
   .toc-link,
   .toc-indicator[data-ready],
   .toc-link::before,

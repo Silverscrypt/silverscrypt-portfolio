@@ -7,7 +7,7 @@ import {
   requireFields,
   type MarkdownFile,
   type RequiredFields,
-} from "@/lib/markdown-files";
+} from "@/lib/markdown/files";
 
 /**
  * Every .md file in content/work is a project. The file name becomes the URL
