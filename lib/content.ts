@@ -18,7 +18,7 @@ export type Entry = {
 
 export const profile = {
   name: "Yashvasin Sana",
-  tagline: ["Computer science student at Virginia Tech", "VP of BITS"],
+  tagline: ["Maryland & Virginia", "VP of BITS"],
   image: {
     // Replace with your own photo: drop a square image in /public/images
     // (e.g. profile.jpg) and update the path here.
@@ -58,11 +58,11 @@ export const menu = {
 
 export const about = {
   eyebrow: "About",
-  title: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+  title: "Understanding High Performance Computing",
   paragraphs: [
-    "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-    "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-    "Curabitur pretium tincidunt lacus. Nulla gravida orci a odio. Nullam varius, turpis et commodo pharetra, est eros bibendum elit, nec luctus magna felis sollicitudin mauris.",
+    "I’m a Computer Science major at Virginia Tech, minoring in Mathematics. I’m most interested in the computation behind scientific computing.",
+    "More specifically, I’m drawn to GPU programming on HPC clusters and to getting more performance out of code at large scale. On the side, I’m learning quantum computing.",
+    "When I’m not chasing performance, I’m probably procrastinating on the book I want to write, barely keeping up with calisthenics, or just daydreaming.",
   ],
   /** Accessible name of the arrow at the bottom of the hero. */
   scrollCueLabel: "Scroll to About",
