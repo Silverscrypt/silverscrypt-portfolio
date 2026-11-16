@@ -58,11 +58,11 @@ export const menu = {
 
 export const about = {
   eyebrow: "About",
-  title: "Understanding Computing.",
+  title: "Understanding Computers and .",
   paragraphs: [
-    "I am a Computer Science major at Virginia Tech with a minor in Mathematics. My interests lie in the computational processes behind scientific computing.",
-    "More specifically, I am deeply interested in GPU programming for HPC clusters in order to improve performance at a large scale. I am also learning about Quantum Computing on the side.",
-    "Outside of performance engineering, I am procrastinating on the book I want to write, barely doing calisthenics, or just daydreaming.",
+    "I’m a Computer Science major at Virginia Tech, minoring in Mathematics. I’m most interested in the computation behind scientific computing.",
+    "More specifically, I’m drawn to GPU programming on HPC clusters and to getting more performance out of code at large scale. On the side, I’m learning quantum computing.",
+    "When I’m not chasing performance, I’m probably procrastinating on the book I want to write, barely keeping up with calisthenics, or just daydreaming.",
   ],
   /** Accessible name of the arrow at the bottom of the hero. */
   scrollCueLabel: "Scroll to About",
