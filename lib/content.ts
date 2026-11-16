@@ -58,7 +58,7 @@ export const menu = {
 
 export const about = {
   eyebrow: "About",
-  title: "Understanding Computers and .",
+  title: "Understanding High Performance Computing",
   paragraphs: [
     "I’m a Computer Science major at Virginia Tech, minoring in Mathematics. I’m most interested in the computation behind scientific computing.",
     "More specifically, I’m drawn to GPU programming on HPC clusters and to getting more performance out of code at large scale. On the side, I’m learning quantum computing.",
