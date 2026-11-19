@@ -606,6 +606,17 @@
     transform-origin: left;
   }
 
+  /* After a jump back, the highlight marks the spot, so the marker skips its
+     focus outline until focus leaves it (see footnote-highlight.tsx). */
+  .article-footnote-ref [data-quiet-focus]:focus-visible {
+    @apply outline-none;
+  }
+
+  /* Back arrow in a footnote: a lucide icon, sized to the text. */
+  .article-footnote-back-icon {
+    @apply inline-block size-[0.9em] align-[-0.1em] text-brand;
+  }
+
   /* Text link with an arrow that nudges back and a brand sweep. */
   .article-back-link {
     @apply relative inline-flex items-center gap-2 text-foreground;
