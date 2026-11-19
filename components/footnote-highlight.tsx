@@ -16,15 +16,24 @@ export function FootnoteHighlight() {
       const id = link?.hash.slice(1);
       if (!id) return;
 
-      const ref = document.getElementById(decodeURIComponent(id))?.closest<HTMLElement>(
-        ".article-footnote-ref",
-      );
-      if (!ref) return;
+      const target = document.getElementById(decodeURIComponent(id));
+      const ref = target?.closest<HTMLElement>(".article-footnote-ref");
+      if (!target || !ref) return;
 
       // Remove, force a reflow, then re-add, so the animation starts over.
       delete ref.dataset.highlight;
       void ref.offsetWidth;
       ref.dataset.highlight = "true";
+
+      // The jump focuses the marker link. The highlight already shows where
+      // the reader landed, so hide its focus outline until focus moves on;
+      // Tab still continues from here, and focusing it again shows the ring.
+      target.dataset.quietFocus = "true";
+      target.addEventListener("blur", () => delete target.dataset.quietFocus, {
+        once: true,
+      });
+      // Some browsers don't move focus on a hash jump; make it consistent.
+      setTimeout(() => target.focus({ preventScroll: true }));
     };
 
     const onEnd = (event: AnimationEvent) => {
