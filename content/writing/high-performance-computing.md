@@ -26,7 +26,7 @@ Basically throw a bunch of computing resources at a complex problem that would t
 
 >"Multiple high-speed computer servers networked with a centralized scheduler[^1] that manages the parallel computing workload"
 
-- Computers, aliased as 'nodes', more prevalently use GPU's but may use multi-core CPU's to perform mathematical calculations, ML[^2] models, and other intensive tasks
+- Computers, aliased as 'nodes', more commonly use GPU's but may use multi-core CPU's to perform mathematical calculations, ML[^2] models, and other intensive tasks
 
 ##### Other HPC Components
 - Networking
@@ -35,7 +35,7 @@ Basically throw a bunch of computing resources at a complex problem that would t
 - Low Latency
 
 ##### Message Passing Interface (MPI)
-- Standard library and protocol for parallel computer programming enabling users to communicate between nodes
+- Standard library and protocol for parallel computer programming, enabling users to communicate between nodes
 
 ## HPC vs. Quantum Computing
 
