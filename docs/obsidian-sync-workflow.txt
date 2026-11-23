@@ -1,0 +1,120 @@
+# ===========================================================================
+# Obsidian → Portfolio sync (GitHub Actions workflow)
+#
+# Publishes the notes in one folder of your Obsidian vault as Writing posts
+# on this portfolio, along with the images they use. Every push to your
+# vault's main branch that touches those folders commits the changes here,
+# and your host (e.g. Vercel) redeploys the site.
+#
+# SETUP
+#
+# 1. Put your Obsidian vault in its own GitHub repository.
+#
+# 2. In the vault, make two folders:
+#      Website/              notes to publish (one .md file = one post)
+#      Attachments/Website/  images those notes use
+#    To have Obsidian save images there automatically, install the
+#    "Attachment Management" community plugin, right-click the Website
+#    folder, choose "Overriding setting" and set its root path to
+#    Attachments/Website. Set the file name pattern to ${originalname} to
+#    keep your images' own names.
+#
+# 3. Each note in Website/ needs this frontmatter at the top:
+#      ---
+#      title: My Post
+#      date: 2026-01-31
+#      summary: One sentence shown under the title.
+#      ---
+#    Optional: image: photo.jpg picks the post's preview image (otherwise
+#    the first image in the note is used).
+#
+# 4. Create a token that can push to your portfolio repository:
+#    GitHub → Settings → Developer settings → Personal access tokens →
+#    Fine-grained tokens → Generate new token.
+#      Repository access: only your portfolio repository
+#      Permissions:       Contents → Read and write
+#
+# 5. In your VAULT repository: Settings → Secrets and variables → Actions →
+#    New repository secret. Name it PORTFOLIO_TOKEN and paste the token.
+#
+# 6. Copy everything below the line into your vault repository at
+#      .github/workflows/sync-portfolio.yml
+#    and replace YOUR-USERNAME/YOUR-PORTFOLIO-REPO with your portfolio's
+#    repository, e.g. octocat/portfolio.
+#
+# 7. Commit and push the vault. To run it by hand: the vault repository's
+#    Actions tab → "Publish Obsidian Writing to Portfolio" → Run workflow.
+#
+# NOTES
+#
+# - Only Website/ and Attachments/Website/ are published. Everything else
+#   in your vault stays private to it.
+# - Deleting a note or image in those folders also removes it from the site.
+# - Images are served at /writing/<file name>, and notes can embed them the
+#   Obsidian way: ![[photo.jpg]], ![[photo.jpg|Description]], ![[photo.jpg|400]].
+#   A note that embeds an image missing from Attachments/Website fails the
+#   site's build with the image's name.
+# - Using different folder names? Change them in the "paths" list and in
+#   the two sync steps below.
+# ===========================================================================
+
+name: Publish Obsidian Writing to Portfolio
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'Website/**'
+      - 'Attachments/Website/**'
+      - '.github/workflows/sync-portfolio.yml'
+  workflow_dispatch:
+
+# One publish at a time, so two quick pushes can't race each other.
+concurrency:
+  group: publish-portfolio
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Obsidian
+        uses: actions/checkout@v6
+
+      - name: Checkout Portfolio
+        uses: actions/checkout@v6
+        with:
+          repository: YOUR-USERNAME/YOUR-PORTFOLIO-REPO
+          token: ${{ secrets.PORTFOLIO_TOKEN }}
+          ref: main
+          path: portfolio
+
+      - name: Sync Markdown
+        run: |
+          mkdir -p portfolio/content/writing
+          rsync -avm --delete \
+            --include='*/' \
+            --include='*.md' \
+            --exclude='*' \
+            Website/ portfolio/content/writing/
+
+      - name: Sync Images
+        run: |
+          mkdir -p portfolio/public/writing Attachments/Website
+          rsync -av --delete Attachments/Website/ portfolio/public/writing/
+
+      - name: Commit and Push
+        run: |
+          cd portfolio
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A content/writing/ public/writing/
+          if git diff --cached --quiet; then
+            echo "No changes to publish."
+          else
+            git commit -m "Publish writing from obsidian@${GITHUB_SHA::7}"
+            git push origin main
+          fi
