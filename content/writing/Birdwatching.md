@@ -9,6 +9,8 @@ tags:
 ---
 ![[juv-cooper-hawk.jpg]]
 
-I came across a juvenile [Cooper's Hawk](https://www.audubon.org/field-guide/bird/coopers-hawk). It's behavior was really interesting to observe. It never wavered when I walked past it taking pictures. It only raised its guard when I made a sudden movement after taking my pictures. Honestly, watching it happen was never interesting online. I was sitting in my room staring at a screen only looking at the bird, and never have I imagined what it would feel like being around one. It is a wildly different experience. For once you are there, actually there in front of the bird and it notices you. I believe that's the difference. You are seen. You chose to take the picture yourself. You became fascinated. You are now a birdwatcher.
+I came across a juvenile [Cooper's Hawk](https://www.audubon.org/field-guide/bird/coopers-hawk). Its behavior was really interesting to observe. It never wavered when I walked past it, taking pictures. It only raised its guard when I made a sudden movement after taking my pictures.
+
+Honestly, watching it happen online was never interesting. I was sitting in my room, staring at a screen and only looking at the bird. I had never imagined what it would feel like to be around one. It is a wildly different experience. For once, you are there, actually there. In front of the bird, its gaze resonates with you. I believe that's the difference. You are seen. You chose to take the picture yourself. You became fascinated. You are now a birdwatcher.
 
 Words alone can never convey true experiences.
