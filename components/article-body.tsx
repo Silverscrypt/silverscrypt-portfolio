@@ -6,6 +6,7 @@ import { ExternalLink, isExternal } from "@/components/external-link";
 import { FootnoteHighlight } from "@/components/footnote-highlight";
 import { rehypeFootnoteWords } from "@/lib/markdown/footnotes";
 import { remarkHeadingIds } from "@/lib/markdown/headings";
+import { remarkObsidianImages } from "@/lib/markdown/images";
 
 const remarkRehypeOptions: Options["remarkRehypeOptions"] = {
   // Drop GitHub's "↩" text, which phones draw as an emoji; the back link
@@ -62,7 +63,7 @@ export function ArticleBody({ markdown }: { markdown: string }) {
   return (
     <div className="article-body">
       <Markdown
-        remarkPlugins={[remarkGfm, remarkHeadingIds]}
+        remarkPlugins={[remarkGfm, remarkHeadingIds, remarkObsidianImages]}
         rehypePlugins={[rehypeFootnoteWords]}
         remarkRehypeOptions={remarkRehypeOptions}
         components={components}
