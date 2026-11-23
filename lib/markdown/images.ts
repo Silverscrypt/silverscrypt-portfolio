@@ -23,7 +23,8 @@ const URL_BASE = "/writing/";
 const EMBED = /!\[\[([^\]|#]+)(?:#[^\]|]*)?(?:\|([^\]]*))?\]\]/g;
 const SIZE = /^(\d+)(?:x(\d+))?$/;
 
-function toImage(file: string, option = ""): Image {
+/** The URL of a synced image, from its file name or Obsidian path. */
+function writingImageUrl(file: string) {
   const name = path.basename(file.trim());
   if (!existsSync(path.join(PUBLIC_DIR, name))) {
     throw new Error(
@@ -31,11 +32,14 @@ function toImage(file: string, option = ""): Image {
         `Obsidian so the sync publishes it.`,
     );
   }
+  return URL_BASE + encodeURIComponent(name);
+}
 
+function toImage(file: string, option = ""): Image {
   const size = option.trim().match(SIZE);
   return {
     type: "image",
-    url: URL_BASE + encodeURIComponent(name),
+    url: writingImageUrl(file),
     alt: size ? "" : option.trim(),
     data: {
       hProperties: {
@@ -81,6 +85,27 @@ function walk(parent: Parent) {
       walk(node);
     }
   }
+}
+
+// ![alt](relative/path.jpg): the first capture is the path.
+const MARKDOWN_IMAGE = /!\[[^\]]*\]\(\s*<?([^)\s>]+)>?[^)]*\)/g;
+
+/**
+ * The URL of a post's preview image: the `image:` frontmatter field when it's
+ * set (`hawk.jpg`, `"[[hawk.jpg]]"` or a /public path), otherwise the first
+ * image in the post. Undefined when the post has no images.
+ */
+export function previewImageUrl(field: string | undefined, markdown: string) {
+  if (field) {
+    const file = field.replace(/^!?\[\[|\]\]$/g, "").split("|")[0];
+    return file.startsWith("/") || !isRelative(file) ? file : writingImageUrl(file);
+  }
+
+  const first = [...markdown.matchAll(EMBED), ...markdown.matchAll(MARKDOWN_IMAGE)]
+    .map((match) => ({ index: match.index, file: match[1] }))
+    .sort((a, b) => a.index - b.index)[0];
+  if (!first) return undefined;
+  return isRelative(first.file) ? writingImageUrl(decodeURIComponent(first.file)) : first.file;
 }
 
 export function remarkObsidianImages() {

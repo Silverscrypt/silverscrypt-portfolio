@@ -14,6 +14,8 @@ export type Entry = {
   href?: string;
   /** Source code URL, shown as a separate GitHub button beside the row. */
   repo?: string;
+  /** URL of a small preview image shown in the row. */
+  image?: string;
 };
 
 export const profile = {

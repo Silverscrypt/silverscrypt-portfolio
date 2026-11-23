@@ -411,6 +411,16 @@
     @apply pt-2 text-base whitespace-nowrap text-muted-foreground tabular-nums;
   }
 
+  /* Small preview image between the text and the date. */
+  .entry-row:has(> .entry-thumb) {
+    grid-template-columns: 1.75rem 1fr auto auto;
+  }
+
+  .entry-thumb {
+    @apply mr-4 ml-6 aspect-[4/3] w-28 rounded-md border object-cover;
+    transition: transform 0.5s var(--ease-out);
+  }
+
   /* Brand dot that grows in beside a linked row. */
   .entry-marker {
     @apply mt-[1.05rem] size-2 self-start rounded-full bg-brand;
@@ -462,11 +472,21 @@
     .entry-link:hover .entry-text {
       transform: translateX(0.35rem);
     }
+
+    .entry-link:hover .entry-thumb {
+      transform: scale(1.04);
+    }
   }
 
   @media (max-width: 640px) {
-    .entry-row {
+    .entry-row,
+    .entry-row:has(> .entry-thumb) {
       grid-template-columns: 1.25rem 1fr;
+    }
+
+    /* Under the text, before the date. */
+    .entry-thumb {
+      @apply col-start-2 mx-0 mt-5 w-full max-w-60;
     }
 
     .entry-meta {
@@ -1151,6 +1171,7 @@
   .menu-link::after,
   .menu-aside-link::after,
   .entry-text,
+  .entry-thumb,
   .entry-marker,
   .entry::before,
   .entry-list::after {

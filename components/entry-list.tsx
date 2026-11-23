@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ExternalLink, isExternal } from "@/components/external-link";
 import { GithubIcon } from "@/components/github-icon";
@@ -19,6 +20,17 @@ function EntryBody({ entry }: { entry: Entry }) {
         <h2 className="entry-title">{entry.title}</h2>
         <p className="entry-summary">{entry.summary}</p>
       </div>
+      {entry.image && (
+        // Decorative: the title already names the row.
+        <Image
+          className="entry-thumb"
+          src={entry.image}
+          alt=""
+          width={224}
+          height={168}
+          sizes="(max-width: 640px) 15rem, 7rem"
+        />
+      )}
       <span className="entry-meta">{entry.meta}</span>
     </>
   );

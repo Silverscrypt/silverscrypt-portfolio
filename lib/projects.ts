@@ -66,5 +66,6 @@ export function toEntry(project: Project): Entry {
     meta: project.period,
     href: `/work/${project.slug}`,
     repo: project.repo,
+    image: project.image?.src,
   };
 }
